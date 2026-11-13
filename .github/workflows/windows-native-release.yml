@@ -24,11 +24,21 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
+      - uses: actions/cache/restore@v4
+        id: cache
+        with:
+          path: |
+            ${{ runner.temp }}/JUCE
+            build-msvc
+          key: windows-vs2022-juce8012-v1-${{ github.run_id }}
+          restore-keys: windows-vs2022-juce8012-v1-
       - name: Fetch the verified JUCE version used for the native build
         shell: pwsh
         run: |
-          git clone --depth 1 --branch 8.0.12 https://github.com/juce-framework/JUCE.git "$env:RUNNER_TEMP/JUCE"
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if (-not (Test-Path "$env:RUNNER_TEMP/JUCE/.git")) {
+            git clone --depth 1 --branch 8.0.12 https://github.com/juce-framework/JUCE.git "$env:RUNNER_TEMP/JUCE"
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
           $actual = git -C "$env:RUNNER_TEMP/JUCE" rev-parse HEAD
           if ($actual.Trim() -ne '29396c22c93392d6738e021b83196283d6e4d850') { throw 'Unexpected JUCE revision.' }
       - name: Configure Visual Studio 2022 x64
@@ -60,8 +70,11 @@ jobs:
           git fetch origin main
           $remote = git rev-parse origin/main
           if ($remote.Trim() -ne $env:GITHUB_SHA) { throw 'Main changed during the build. Rerun this workflow on the current main; no files were overwritten.' }
-          git config user.name 'github-actions[bot]'
+          New-Item -ItemType Directory -Path build-reports -Force | Out-Null
+          @("Source: $env:GITHUB_SHA", "Native Windows tests passed") + (Get-Content "$env:RUNNER_TEMP/native-windows-tests.log") | Set-Content build-reports/windows-native-last.log -Encoding UTF8
+          git config user.name 'github-actions[bot]' 
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f build-reports/windows-native-last.log
           git add README.md downloads/README.md downloads/SHA256SUMS.txt downloads/WINDOWS_NATIVE_BUILD.json downloads/VocalBalance-0.1.1-VST2-Windows-x64-MSVC.zip downloads/VocalBalance-0.1.1-VST3-Windows-x64-MSVC.zip downloads/VocalBalance-0.1.1-Sources.zip
           git commit -m 'Publish natively tested Windows MSVC 0.1.1 packages [skip ci]'
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -98,3 +111,10 @@ jobs:
             ${{ runner.temp }}/native-windows-configure.log
             ${{ runner.temp }}/native-windows-build.log
             ${{ runner.temp }}/native-windows-tests.log
+      - uses: actions/cache/save@v4
+        if: always() && steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            ${{ runner.temp }}/JUCE
+            build-msvc
+          key: windows-vs2022-juce8012-v1-${{ github.run_id }}

@@ -145,7 +145,8 @@ BalanceEditor::BalanceEditor(VocalBalance& p):AudioProcessorEditor(p),processor(
  };
  toolbar[3].onClick=[this]{
   chooser=std::make_unique<juce::FileChooser>("Load Vocal Balance preset",juce::File{},"*.vbpreset");
-  chooser->launchAsync(juce::FileBrowserComponent::openMode|juce::FileBrowserComponent::canSelectFiles,[safe=juce::Component::SafePointer<BalanceEditor>(this)](const juce::FileChooser& fc){
+  const juce::Component::SafePointer<BalanceEditor> safe(this);
+  chooser->launchAsync(juce::FileBrowserComponent::openMode|juce::FileBrowserComponent::canSelectFiles,[safe](const juce::FileChooser& fc){
    if(!safe) return;
    auto file=fc.getResult();if(!file.existsAsFile()) return;
    if(auto xml=juce::XmlDocument::parse(file)) {if(xml->hasTagName("VocalBalance")) safe->processor.state.replaceState(juce::ValueTree::fromXml(*xml));}
@@ -153,7 +154,8 @@ BalanceEditor::BalanceEditor(VocalBalance& p):AudioProcessorEditor(p),processor(
  };
  toolbar[4].onClick=[this]{
   chooser=std::make_unique<juce::FileChooser>("Save Vocal Balance preset",juce::File::getSpecialLocation(juce::File::userDocumentsDirectory).getChildFile("VocalBalance.vbpreset"),"*.vbpreset");
-  chooser->launchAsync(juce::FileBrowserComponent::saveMode|juce::FileBrowserComponent::canSelectFiles|juce::FileBrowserComponent::warnAboutOverwriting,[safe=juce::Component::SafePointer<BalanceEditor>(this)](const juce::FileChooser& fc){
+  const juce::Component::SafePointer<BalanceEditor> safe(this);
+  chooser->launchAsync(juce::FileBrowserComponent::saveMode|juce::FileBrowserComponent::canSelectFiles|juce::FileBrowserComponent::warnAboutOverwriting,[safe](const juce::FileChooser& fc){
    if(!safe) return;
    auto file=fc.getResult();if(file==juce::File{}) return;
    if(auto xml=safe->processor.state.copyState().createXml()) {if(!xml->writeTo(file.withFileExtension("vbpreset"))) juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,"Save preset","Could not write preset file.");}
