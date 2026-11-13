@@ -1,8 +1,20 @@
-// Minimal Linux host: load the actual bundle module and process audio via VST3 ABI.
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#endif
+// Minimal host for Linux and Windows: load the actual bundle module and process audio via VST3 ABI.
 #include "pluginterfaces/base/ipluginbase.h"
 #include "pluginterfaces/vst/ivstcomponent.h"
 #include "pluginterfaces/vst/ivstaudioprocessor.h"
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <dlfcn.h>
+#endif
 #include <array>
 #include <cmath>
 #include <cstring>
@@ -12,12 +24,23 @@ using namespace Steinberg;
 using namespace Steinberg::Vst;
 void require(bool ok,const char* message) { if(!ok) {std::cerr<<"FAIL: "<<message<<'\n';std::exit(1);} }
 int main(int argc,char** argv) {
- require(argc==2,"provide path to VST3 .so");
+ require(argc==2,"provide path to VST3 module");
+ #ifdef _WIN32
+ SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+ HMODULE lib=LoadLibraryA(argv[1]);
+ if(!lib) {std::cerr<<"Windows LoadLibrary error "<<GetLastError()<<'\n';return 1;}
+ auto enter=reinterpret_cast<bool(*)()>(GetProcAddress(lib,"InitDll"));
+ auto leave=reinterpret_cast<bool(*)()>(GetProcAddress(lib,"ExitDll"));
+ require(enter && enter(),"module entry");
+ auto factoryFn=reinterpret_cast<IPluginFactory*(*)()>(GetProcAddress(lib,"GetPluginFactory"));
+ #else
  void* lib=dlopen(argv[1],RTLD_NOW|RTLD_LOCAL); if(!lib) {std::cerr<<dlerror()<<'\n';return 1;}
  auto enter=reinterpret_cast<bool(*)(void*)>(dlsym(lib,"ModuleEntry"));
  auto leave=reinterpret_cast<bool(*)()>(dlsym(lib,"ModuleExit"));
  require(enter && enter(lib),"module entry");
- auto factoryFn=reinterpret_cast<IPluginFactory*(*)()>(dlsym(lib,"GetPluginFactory"));require(factoryFn!=nullptr,"factory export");
+ auto factoryFn=reinterpret_cast<IPluginFactory*(*)()>(dlsym(lib,"GetPluginFactory"));
+ #endif
+ require(factoryFn!=nullptr,"factory export");
  IPluginFactory* factory=factoryFn(); require(factory!=nullptr,"factory instance");
  PClassInfo info{}; bool found=false;
  for(int i=0;i<factory->countClasses();++i) {factory->getClassInfo(i,&info); if(std::strcmp(info.category,kVstAudioEffectClass)==0) {found=true;break;}}
@@ -38,6 +61,11 @@ int main(int argc,char** argv) {
   for(int i=0;i<256;++i) {require(std::isfinite(outL[(size_t)i]),"finite plugin output");require(outL[(size_t)i]==outR[(size_t)i],"linked plugin stereo");energy+=outL[(size_t)i]*outL[(size_t)i];}
  }
  require(energy>1,"non-silent processed audio");
- processor->setProcessing(false);component->setActive(false);processor->release();component->terminate();component->release();factory->release();if(leave) leave();dlclose(lib);
+ processor->setProcessing(false);component->setActive(false);processor->release();component->terminate();component->release();factory->release();if(leave) leave();
+ #ifdef _WIN32
+ FreeLibrary(lib);
+ #else
+ dlclose(lib);
+ #endif
  std::cout<<"PASS: VST3 module factory, activation and 500 stereo audio blocks\n";
 }

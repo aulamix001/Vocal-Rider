@@ -5,12 +5,19 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Validate signing script syntax
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          $null = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $pwd 'tools/Sign-WindowsArtifacts.ps1'), [ref]$tokens, [ref]$errors)
+          if ($errors.Count -gt 0) { $errors | Format-List; throw 'Signing script has syntax errors.' }
       - run: cmake -S . -B build -A x64
       - run: cmake --build build --config Release --parallel 4
       - run: ctest --test-dir build -C Release --output-on-failure
       - uses: actions/upload-artifact@v4
         with:
-          name: Vocal-Balance-Windows-x64
+          name: Vocal-Balance-Windows-x64-UNSIGNED-DEVELOPMENT
           path: |
             build/VocalBalance_artefacts/Release/VST3/
             build/VocalBalance_artefacts/Release/Standalone/

@@ -7,6 +7,11 @@ VST3, módulo de compatibilidade VST2 e standalone; Windows e Linux x64.
 
 ## Download compilado — Windows x64
 
+> **Windows 11 com Controle Inteligente de Aplicativos:** os downloads atuais são
+> builds de desenvolvimento **sem assinatura**. Foi confirmado o bloqueio
+> `0xC0E90002` nesse cenário. Uma distribuição assinada ainda depende de certificado
+> confiável. Veja [diagnóstico e fluxo de assinatura](docs/WINDOWS_LOADING.md).
+
 [**Baixar Vocal Balance VST3 — ZIP (pasta .vst3 + instruções)**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST3-Windows-x64.zip)
 
 [**Baixar Vocal Balance VST2 — ZIP (DLL + instruções)**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST2-Windows-x64.zip)

@@ -42,3 +42,13 @@ VSTPluginMain e não depende de DLLs adicionais MinGW. Não foi executada num DA
 Windows. Veja docs/VST2.md.
 Seleção interativa de arquivos nos diálogos Load/Save não foi automatizada.
 A/B e Undo/Redo foram exercitados nos próprios controles da interface.
+
+## Investigação posterior do Windows 11 / 0xC0E90002
+
+O usuário confirmou Controle Inteligente de Aplicativos ativado. O código oficial
+é STATUS_SYSTEM_INTEGRITY_POLICY_VIOLATION. Ambos os módulos são sem assinatura.
+Foram acrescentados hosts de teste Windows reais: os módulos publicados passaram
+em LoadLibrary, fábrica/processamento VST3 e áudio/estado/automação/editor VST2,
+executados em Wine 10. Isso não reproduz a política de segurança do Windows 11.
+O fluxo de assinatura confiável está preparado, mas não foi executado por ausência
+de certificado/chave; os arquivos de download permanecem sem assinatura.

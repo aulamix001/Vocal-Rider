@@ -1,11 +1,23 @@
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#endif
 #include <cstddef>
 #include <cstdint>
 #ifndef __cdecl
  #define __cdecl
 #endif
 #include "xaymar-vst2/vst.h"
+#ifdef _WIN32
+#include <windows.h>
+#else
 #include <X11/Xlib.h>
 #include <dlfcn.h>
+#endif
 #include <array>
 #include <atomic>
 #include <chrono>
@@ -47,9 +59,16 @@ intptr_t dispatch(vst_effect* e, int opcode, int index = 0, intptr_t value = 0,
 }
 int main(int argc, char** argv) {
  require(argc == 2, "provide path to compatibility module");
+ #ifdef _WIN32
+ SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+ HMODULE library = LoadLibraryA(argv[1]);
+ if (!library) {std::cerr<<"Windows LoadLibrary error "<<GetLastError()<<'\n';return 1;}
+ auto entry = reinterpret_cast<vst_effect* (*)(vst_host_callback)>(GetProcAddress(library,"VSTPluginMain"));
+ #else
  void* library = dlopen(argv[1], RTLD_NOW | RTLD_LOCAL);
  if (!library) { std::cerr << dlerror() << '\n'; return 1; }
  auto entry = reinterpret_cast<vst_effect* (*)(vst_host_callback)>(dlsym(library, "VSTPluginMain"));
+ #endif
  require(entry != nullptr, "VSTPluginMain export");
  require(entry(nullptr) == nullptr, "invalid host rejected");
  auto* effect = entry(host);
@@ -106,17 +125,31 @@ int main(int argc, char** argv) {
  float loud = process(500, 256, .1f, .25f);
  require(loud > quiet * 2, "music sidechain influences gain");
 
+ #ifdef _WIN32
+ HWND window=CreateWindowExA(0,"STATIC","Vocal Balance host test",WS_OVERLAPPEDWINDOW,0,0,460,800,nullptr,nullptr,GetModuleHandle(nullptr),nullptr);
+ require(window!=nullptr,"native Windows host window");ShowWindow(window,SW_SHOW);
+ #else
  Display* display = XOpenDisplay(nullptr); require(display != nullptr, "X11 test display");
  Window window = XCreateSimpleWindow(display, DefaultRootWindow(display), 0, 0, 420, 740, 0, 0, 0);
  XMapWindow(display, window); XSync(display, False);
+ #endif
  vst_rect* rect = nullptr; require(dispatch(effect, 13, 0, 0, &rect) == 1, "editor rectangle");
  require(rect && rect->right == 420 && rect->bottom == 740, "editor dimensions");
- require(dispatch(effect, 14, 0, 0, reinterpret_cast<void*>(static_cast<uintptr_t>(window))) == 1, "native editor open");
- for (int i = 0; i < 8; ++i) { std::this_thread::sleep_for(std::chrono::milliseconds(10)); dispatch(effect, 19); }
+ require(dispatch(effect, 14, 0, 0, reinterpret_cast<void*>(window)) == 1, "native editor open");
+ for (int i = 0; i < 8; ++i) {
+  std::this_thread::sleep_for(std::chrono::milliseconds(10)); dispatch(effect,19);
+  #ifdef _WIN32
+  MSG message;while(PeekMessage(&message,nullptr,0,0,PM_REMOVE)){TranslateMessage(&message);DispatchMessage(&message);}
+  #endif
+ }
+ #ifdef _WIN32
+ require(GetWindow(window,GW_CHILD)!=nullptr,"editor embedded in Windows host");
+ #else
  XSync(display, False);
  Window root, parent, *children = nullptr; unsigned childCount = 0;
  require(XQueryTree(display, window, &root, &parent, &children, &childCount) && childCount > 0, "editor embedded in host window");
  if (children) XFree(children);
+ #endif
  const int baseline = automated.load(); set(9, .5f); // Write mode.
  const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(2);
  while (automated.load() == baseline && std::chrono::steady_clock::now() < deadline) {
@@ -124,8 +157,16 @@ int main(int argc, char** argv) {
  }
  require(automated.load() > baseline, "Write movement reaches host automation callback");
  dispatch(effect, 15); dispatch(effect, 15); // Closing an already closed editor is harmless.
+ #ifdef _WIN32
+ DestroyWindow(window);
+ #else
  XDestroyWindow(display, window); XCloseDisplay(display);
+ #endif
  dispatch(effect, 12, 0, 0); dispatch(effect, 1);
+ #ifdef _WIN32
+ FreeLibrary(library);
+ #else
  dlclose(library);
- std::cout << "PASS: legacy module ABI, metadata, audio, Read/Write, bypass, state, sidechain, editor embedding; no C++ allocations in audio\n";
+ #endif
+ std::cout << "PASS: legacy module ABI, metadata, audio, Read/Write, bypass, state, sidechain, editor embedding\n";
 }

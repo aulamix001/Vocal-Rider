@@ -1,0 +1,65 @@
+name: Build and sign Windows plugins
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  signed:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require signing credentials
+        shell: pwsh
+        env:
+          PFX_BASE64: ${{ secrets.WINDOWS_CODE_SIGN_PFX_BASE64 }}
+          PFX_PASSWORD: ${{ secrets.WINDOWS_CODE_SIGN_PFX_PASSWORD }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:PFX_BASE64) -or [string]::IsNullOrWhiteSpace($env:PFX_PASSWORD)) {
+            throw 'Configure the trusted code-signing certificate secrets before running a signed release. No unsigned fallback is published.'
+          }
+      - run: cmake -S . -B build -A x64
+      - run: cmake --build build --config Release --parallel 4
+      - name: Test native Windows modules
+        run: ctest --test-dir build -C Release --output-on-failure
+      - name: Sign and validate both formats
+        shell: pwsh
+        env:
+          PFX_BASE64: ${{ secrets.WINDOWS_CODE_SIGN_PFX_BASE64 }}
+          PFX_PASSWORD: ${{ secrets.WINDOWS_CODE_SIGN_PFX_PASSWORD }}
+        run: |
+          $pfx = Join-Path $env:RUNNER_TEMP 'vocal-balance-signing.pfx'
+          $certificate = $null
+          try {
+            [IO.File]::WriteAllBytes($pfx, [Convert]::FromBase64String($env:PFX_BASE64))
+            $password = ConvertTo-SecureString $env:PFX_PASSWORD -AsPlainText -Force
+            $imported = @(Import-PfxCertificate -FilePath $pfx -CertStoreLocation Cert:CurrentUserMy -Password $password | Where-Object HasPrivateKey)
+            if ($imported.Count -ne 1) { throw 'Expected one code-signing certificate with its private key.' }
+            $certificate = $imported[0]
+            ./tools/Sign-WindowsArtifacts.ps1 -CertificateThumbprint $certificate.Thumbprint
+          } finally {
+            Remove-Item -LiteralPath $pfx -Force -ErrorAction SilentlyContinue
+            if ($certificate) { Remove-Item -LiteralPath "Cert:\CurrentUser\My\$($certificate.Thumbprint)" -DeleteKey -ErrorAction SilentlyContinue }
+          }
+      - name: Package signed plugins
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path signed-downloads -Force | Out-Null
+          Copy-Item LICENSE, docs/THIRD_PARTY.md, docs/WINDOWS_LOADING.md -Destination signed-downloads
+          Copy-Item build/VocalBalance_artefacts/Release/SIGNATURES.json -Destination signed-downloads
+          foreach ($format in @('VST2', 'VST3')) {
+            $stage = Join-Path $env:RUNNER_TEMP "vocal-balance-signed-$format"
+            New-Item -ItemType Directory -Path $stage -Force | Out-Null
+            if ($format -eq 'VST2') {
+              Copy-Item -LiteralPath 'build/VocalBalance_artefacts/Release/VST2/Vocal Balance.dll' -Destination $stage
+            } else {
+              Copy-Item -LiteralPath 'build/VocalBalance_artefacts/Release/VST3/Vocal Balance.vst3' -Destination $stage -Recurse
+            }
+            Copy-Item LICENSE, docs/THIRD_PARTY.md -Destination $stage
+            Copy-Item third_party/xaymar-vst2/LICENSE -Destination "$stage/XAYMAR-LICENSE.txt"
+            Copy-Item build/VocalBalance_artefacts/Release/SIGNATURES.json -Destination $stage
+            Compress-Archive -Path "$stage/*" -DestinationPath "signed-downloads/VocalBalance-$format-Windows-x64-SIGNED.zip"
+          }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Vocal-Balance-Windows-x64-SIGNED
+          path: signed-downloads/

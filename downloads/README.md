@@ -1,5 +1,9 @@
 # Vocal Balance — arquivos compilados
 
+> **Builds de desenvolvimento sem assinatura.** No Windows 11 com Controle
+> Inteligente de Aplicativos ativado, foi confirmado o bloqueio `0xC0E90002`.
+> Ainda não há pacote assinado publicado. Veja [detalhes](../docs/WINDOWS_LOADING.md).
+
 - [Baixar VST3 Windows x64](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST3-Windows-x64.zip)
 - [Baixar VST2 Windows x64](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST2-Windows-x64.zip)
 - [Código-fonte](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST2-Sources.zip)
