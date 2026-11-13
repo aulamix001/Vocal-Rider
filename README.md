@@ -7,26 +7,17 @@ VST3, módulo de compatibilidade VST2 e standalone; Windows e Linux x64.
 
 ## Download compilado — Windows x64
 
-> **Windows 11 com Controle Inteligente de Aplicativos:** os downloads atuais são
-> builds de desenvolvimento **sem assinatura**. Foi confirmado o bloqueio
-> `0xC0E90002` nesse cenário. O CHi Metric comparado também é sem assinatura;
-> a nova versão está sendo compilada nativamente com a mesma família de toolchain
-> MSVC/JUCE 8.0.12. Veja [comparação e diagnóstico](docs/WINDOWS_LOADING.md).
+[**Baixar VST2 Windows x64 — MSVC 0.1.1**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.1-VST2-Windows-x64-MSVC.zip)
 
-[**Baixar Vocal Balance VST3 — ZIP (pasta .vst3 + instruções)**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST3-Windows-x64.zip)
+[**Baixar VST3 Windows x64 — MSVC 0.1.1**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.1-VST3-Windows-x64-MSVC.zip)
 
-[**Baixar Vocal Balance VST2 — ZIP (DLL + instruções)**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST2-Windows-x64.zip)
+Versão **0.1.1**, compilada no Windows com **Visual C++ / JUCE 8.0.12**, com **4/4 testes nativos aprovados**.
 
-**VST3:** copie a pasta inteira `Vocal Balance.vst3` para
-`C:\Program Files\Common Files\VST3\`.
+VST2: copie a DLL para a pasta VST2 do DAW. VST3: copie a pasta `.vst3` inteira para `C:\Program Files\Common Files\VST3\`. Remova as cópias antigas antes de atualizar a busca.
 
-**VST2:** extraia `Vocal Balance.dll` e copie para a pasta VST2 configurada no seu DAW.
-É um plugin de **64 bits**. A DLL foi compilada e inspecionada; ainda precisa ser
-validada em um DAW Windows. A suíte Linux passou em 4/4 testes, incluindo
-carregamento e processamento pelo módulo real.
+**Sem assinatura Authenticode:** o carregamento com Controle Inteligente de Aplicativos ativado ainda precisa ser confirmado no seu computador. [Comparação e diagnóstico](docs/WINDOWS_LOADING.md).
 
-[Código-fonte em ZIP](downloads/VocalBalance-0.1.0-VST2-Sources.zip) ·
-[Verificação SHA-256](downloads/SHA256SUMS.txt) · [Detalhes do VST2](docs/VST2.md)
+[Informações do build](downloads/WINDOWS_NATIVE_BUILD.json) · [Checksums](downloads/SHA256SUMS.txt)
 
 ## Compilar no Windows
 

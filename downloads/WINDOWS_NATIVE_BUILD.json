@@ -1,0 +1,23 @@
+{
+  "version": "0.1.1",
+  "source_commit": "e38d289cf465e23656085994475e2f65b56e9917",
+  "build_os": "Windows x64",
+  "compiler": "Microsoft Visual C++ / Visual Studio 2022",
+  "juce": "8.0.12",
+  "native_tests_passed": 4,
+  "reaper_studio_one_and_smart_app_control": "Requires user validation",
+  "images": {
+    "VST2": {
+      "bytes": 6040576,
+      "sha256": "5676cfa4c88a43460367d9e9b9cdc9053558081b9aaed9cb06d1dcc2de91ce4c",
+      "linker": "14.44",
+      "authenticode_table_present": false
+    },
+    "VST3": {
+      "bytes": 6410752,
+      "sha256": "e7f16d9cb9645577511e6e14ce1405c1fee95998c343692c57ecb9973fce3a4f",
+      "linker": "14.44",
+      "authenticode_table_present": false
+    }
+  }
+}
