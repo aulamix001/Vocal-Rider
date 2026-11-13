@@ -1,0 +1,53 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35230.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file D:\a\_temp\VocalBalance-before\VST2\VocalBalance.dll
+
+File Type: DLL
+
+  Image has the following dependencies:
+
+    KERNEL32.dll
+    USER32.dll
+    GDI32.dll
+    SHELL32.dll
+    ole32.dll
+    OLEAUT32.dll
+    COMDLG32.dll
+    ADVAPI32.dll
+    MSVCP140.dll
+    WININET.dll
+    WS2_32.dll
+    VERSION.dll
+    SHLWAPI.dll
+    WINMM.dll
+    dbghelp.dll
+    d2d1.dll
+    dxgi.dll
+    d3d11.dll
+    dcomp.dll
+    IMM32.dll
+    COMCTL32.dll
+    dwmapi.dll
+    VCRUNTIME140.dll
+    VCRUNTIME140_1.dll
+    api-ms-win-crt-heap-l1-1-0.dll
+    api-ms-win-crt-math-l1-1-0.dll
+    api-ms-win-crt-string-l1-1-0.dll
+    api-ms-win-crt-runtime-l1-1-0.dll
+    api-ms-win-crt-stdio-l1-1-0.dll
+    api-ms-win-crt-time-l1-1-0.dll
+    api-ms-win-crt-convert-l1-1-0.dll
+    api-ms-win-crt-locale-l1-1-0.dll
+    api-ms-win-crt-environment-l1-1-0.dll
+
+  Summary
+
+       20000 .data
+       38000 .pdata
+      11F000 .rdata
+        B000 .reloc
+        1000 .rsrc
+      446000 .text
+        1000 _RDATA

@@ -1,16 +1,16 @@
-Source: 8733295d84b4b36e03870995be439e1f55fbd13b
+Source: c4fda759e6531ae54fa85080fd75a3e50d9eb637
 Native Windows tests passed
 Internal ctest changing into directory: D:/a/Vocal-Rider/Vocal-Rider/build-msvc
 Test project D:/a/Vocal-Rider/Vocal-Rider/build-msvc
     Start 1: dsp
-1/4 Test #1: dsp ..............................   Passed    1.43 sec
+1/4 Test #1: dsp ..............................   Passed    0.88 sec
     Start 2: processor
-2/4 Test #2: processor ........................   Passed    0.53 sec
+2/4 Test #2: processor ........................   Passed    0.56 sec
     Start 3: vst3_module
-3/4 Test #3: vst3_module ......................   Passed    0.11 sec
+3/4 Test #3: vst3_module ......................   Passed    0.09 sec
     Start 4: vst2_module
-4/4 Test #4: vst2_module ......................   Passed    0.40 sec
+4/4 Test #4: vst2_module ......................   Passed    0.31 sec
 
 100% tests passed, 0 tests failed out of 4
 
-Total Test time (real) =   2.56 sec
+Total Test time (real) =   1.97 sec

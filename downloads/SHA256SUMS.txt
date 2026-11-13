@@ -7,3 +7,6 @@ aafaf553d4f10cec2570eee1fa64671e3ba21aa96935cd798bac45499a592757  VocalBalance-0
 9c87f1a49b8b45e208534f368940eadb981445f31dea08482e8c9bab821d611b  VocalBalance-0.2.0-Sources.zip
 b9f28408956ab1e108dff0e6f2c80bb923dd9710f9cbd31ffb87662eb07f2adf  VocalBalance-0.2.0-VST2-Windows-x64-MSVC.zip
 08ccd25af2e2afa1ae5261e89944d40cb12588ef706d14207bc556196e9c5fe4  VocalBalance-0.2.0-VST3-Windows-x64-MSVC.zip
+ba51fa8e5ff2eab99326347a717d4035de4a6540f33c184aa3223629a7e173f6  VocalBalance-0.2.1-Sources.zip
+91bf05f040755b3d85040e2f76e619df52912229dd91c0702138861590704034  VocalBalance-0.2.1-VST2-Windows-x64-MSVC.zip
+de29d8d917e40328262ffa683c314ba12ffa70bf1c4d42f7da25cfa2383dbc92  VocalBalance-0.2.1-VST3-Windows-x64-MSVC.zip

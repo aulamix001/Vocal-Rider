@@ -1,0 +1,42 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35230.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\VST2\VocalBalance.dll
+
+File Type: DLL
+
+  Image has the following dependencies:
+
+    KERNEL32.dll
+    USER32.dll
+    GDI32.dll
+    SHELL32.dll
+    ole32.dll
+    OLEAUT32.dll
+    COMDLG32.dll
+    ADVAPI32.dll
+    WININET.dll
+    WS2_32.dll
+    VERSION.dll
+    SHLWAPI.dll
+    WINMM.dll
+    dbghelp.dll
+    d2d1.dll
+    dxgi.dll
+    d3d11.dll
+    dcomp.dll
+    IMM32.dll
+    COMCTL32.dll
+    dwmapi.dll
+
+  Summary
+
+       23000 .data
+        1000 .fptable
+       3B000 .pdata
+      135000 .rdata
+        B000 .reloc
+        1000 .rsrc
+      488000 .text
+        1000 _RDATA

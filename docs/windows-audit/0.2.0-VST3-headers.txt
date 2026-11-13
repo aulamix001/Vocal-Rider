@@ -1,0 +1,183 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35230.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file D:\a\_temp\VocalBalance-before\VST3\VocalBalance.vst3\Contents\x86_64-win\VocalBalance.vst3
+
+PE signature found
+
+File Type: DLL
+
+FILE HEADER VALUES
+            8664 machine (x64)
+               7 number of sections
+        6AF7790E time date stamp Fri Nov 13 20:54:38 2026
+               0 file pointer to symbol table
+               0 number of symbols
+              F0 size of optional header
+            2022 characteristics
+                   Executable
+                   Application can handle large (>2GB) addresses
+                   DLL
+
+OPTIONAL HEADER VALUES
+             20B magic # (PE32+)
+           14.44 linker version
+          48A200 size of code
+          198A00 size of initialized data
+               0 size of uninitialized data
+          465E64 entry point (0000000180465E64)
+            1000 base of code
+       180000000 image base (0000000180000000 to 0000000180626FFF)
+            1000 section alignment
+             200 file alignment
+            6.00 operating system version
+            0.00 image version
+            6.00 subsystem version
+               0 Win32 version
+          627000 size of image
+             400 size of headers
+               0 checksum
+               3 subsystem (Windows CUI)
+             160 DLL characteristics
+                   High Entropy Virtual Addresses
+                   Dynamic base
+                   NX compatible
+          100000 size of stack reserve
+            1000 size of stack commit
+          100000 size of heap reserve
+            1000 size of heap commit
+               0 loader flags
+              10 number of directories
+          5B5780 [      7C] RVA [size] of Export Directory
+          5B57FC [     2A8] RVA [size] of Import Directory
+          61B000 [     520] RVA [size] of Resource Directory
+          5DE000 [   3BAF0] RVA [size] of Exception Directory
+               0 [       0] RVA [size] of Certificates Directory
+          61C000 [    AF64] RVA [size] of Base Relocation Directory
+          50A830 [      1C] RVA [size] of Debug Directory
+               0 [       0] RVA [size] of Architecture Directory
+               0 [       0] RVA [size] of Global Pointer Directory
+          50A880 [      28] RVA [size] of Thread Storage Directory
+          50A6F0 [     140] RVA [size] of Load Configuration Directory
+               0 [       0] RVA [size] of Bound Import Directory
+          48C000 [    13F8] RVA [size] of Import Address Table Directory
+               0 [       0] RVA [size] of Delay Import Directory
+               0 [       0] RVA [size] of COM Descriptor Directory
+               0 [       0] RVA [size] of Reserved Directory
+
+
+SECTION HEADER #1
+   .text name
+  48A01E virtual size
+    1000 virtual address (0000000180001000 to 000000018048B01D)
+  48A200 size of raw data
+     400 file pointer to raw data (00000400 to 0048A5FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60000020 flags
+         Code
+         Execute Read
+
+SECTION HEADER #2
+  .rdata name
+  12E502 virtual size
+  48C000 virtual address (000000018048C000 to 00000001805BA501)
+  12E600 size of raw data
+  48A600 file pointer to raw data (0048A600 to 005B8BFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+40000040 flags
+         Initialized Data
+         Read Only
+
+  Debug Directories
+
+        Time Type        Size      RVA  Pointer
+    -------- ------- -------- -------- --------
+    6AF7790E coffgrp      3B0 0053FD24   53E324
+
+SECTION HEADER #3
+   .data name
+   22E20 virtual size
+  5BB000 virtual address (00000001805BB000 to 00000001805DDE1F)
+   1F600 size of raw data
+  5B8C00 file pointer to raw data (005B8C00 to 005D81FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+C0000040 flags
+         Initialized Data
+         Read Write
+
+SECTION HEADER #4
+  .pdata name
+   3BAF0 virtual size
+  5DE000 virtual address (00000001805DE000 to 0000000180619AEF)
+   3BC00 size of raw data
+  5D8200 file pointer to raw data (005D8200 to 00613DFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+40000040 flags
+         Initialized Data
+         Read Only
+
+SECTION HEADER #5
+  _RDATA name
+      30 virtual size
+  61A000 virtual address (000000018061A000 to 000000018061A02F)
+     200 size of raw data
+  613E00 file pointer to raw data (00613E00 to 00613FFF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+40000040 flags
+         Initialized Data
+         Read Only
+
+SECTION HEADER #6
+   .rsrc name
+     520 virtual size
+  61B000 virtual address (000000018061B000 to 000000018061B51F)
+     600 size of raw data
+  614000 file pointer to raw data (00614000 to 006145FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+40000040 flags
+         Initialized Data
+         Read Only
+
+SECTION HEADER #7
+  .reloc name
+    AF64 virtual size
+  61C000 virtual address (000000018061C000 to 0000000180626F63)
+    B000 size of raw data
+  614600 file pointer to raw data (00614600 to 0061F5FF)
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+42000040 flags
+         Initialized Data
+         Discardable
+         Read Only
+
+  Summary
+
+       23000 .data
+       3C000 .pdata
+      12F000 .rdata
+        B000 .reloc
+        1000 .rsrc
+      48B000 .text
+        1000 _RDATA

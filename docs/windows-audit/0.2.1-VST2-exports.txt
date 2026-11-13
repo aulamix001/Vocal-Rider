@@ -1,0 +1,31 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35230.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\VST2\VocalBalance.dll
+
+File Type: DLL
+
+  Section contains the following exports for VocalBalance.dll
+
+    00000000 characteristics
+    FFFFFFFF time date stamp
+        0.00 version
+           1 ordinal base
+           1 number of functions
+           1 number of names
+
+    ordinal hint RVA      name
+
+          1    0 0000A890 VSTPluginMain
+
+  Summary
+
+       23000 .data
+        1000 .fptable
+       3B000 .pdata
+      135000 .rdata
+        B000 .reloc
+        1000 .rsrc
+      488000 .text
+        1000 _RDATA

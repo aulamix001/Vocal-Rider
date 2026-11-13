@@ -1,13 +1,89 @@
 {
-  "version": "0.2.0",
-  "source_commit": "8733295d84b4b36e03870995be439e1f55fbd13b",
+  "version": "0.2.1",
+  "source_commit": "c4fda759e6531ae54fa85080fd75a3e50d9eb637",
   "build_os": "Windows x64",
   "compiler": "Microsoft Visual C++ / Visual Studio 2022",
   "juce": "8.0.12",
+  "crt": "static /MT (Release)",
+  "module_audit": {
+    "version": "0.2.1",
+    "source": "c4fda759e6531ae54fa85080fd75a3e50d9eb637",
+    "static_crt_required": true,
+    "modules": {
+      "VST2": {
+        "sha256": "37148429a45d06e5fa2792b179c4bb828321b1d792e3f6b4b65ae76483f22f0f",
+        "machine": "8664 (x64)",
+        "exports": "VSTPluginMain",
+        "dependencies": [
+          "ADVAPI32.dll",
+          "COMCTL32.dll",
+          "COMDLG32.dll",
+          "d2d1.dll",
+          "d3d11.dll",
+          "dbghelp.dll",
+          "dcomp.dll",
+          "dwmapi.dll",
+          "dxgi.dll",
+          "GDI32.dll",
+          "IMM32.dll",
+          "KERNEL32.dll",
+          "ole32.dll",
+          "OLEAUT32.dll",
+          "SHELL32.dll",
+          "SHLWAPI.dll",
+          "USER32.dll",
+          "VERSION.dll",
+          "WININET.dll",
+          "WINMM.dll",
+          "WS2_32.dll"
+        ],
+        "dynamic_crt": [],
+        "manifest_resource_2_present": true,
+        "manifest_external_crt": false,
+        "authenticode": "NotSigned"
+      },
+      "VST3": {
+        "sha256": "7b2e2fd593522c73a08a7788452347b2a4102efe71c684c99702972825c14c63",
+        "machine": "8664 (x64)",
+        "exports": [
+          "GetPluginFactory",
+          "InitDll",
+          "ExitDll"
+        ],
+        "dependencies": [
+          "ADVAPI32.dll",
+          "COMCTL32.dll",
+          "COMDLG32.dll",
+          "d2d1.dll",
+          "d3d11.dll",
+          "dbghelp.dll",
+          "dcomp.dll",
+          "dwmapi.dll",
+          "dxgi.dll",
+          "GDI32.dll",
+          "IMM32.dll",
+          "KERNEL32.dll",
+          "ole32.dll",
+          "OLEAUT32.dll",
+          "SHELL32.dll",
+          "SHLWAPI.dll",
+          "USER32.dll",
+          "VERSION.dll",
+          "WININET.dll",
+          "WINMM.dll",
+          "WS2_32.dll"
+        ],
+        "dynamic_crt": [],
+        "manifest_resource_2_present": true,
+        "manifest_external_crt": false,
+        "authenticode": "NotSigned"
+      }
+    }
+  },
   "native_tests_passed": 4,
   "reaper_windows": {
     "host": "REAPER",
-    "version": "7.85/x64",
+    "version": "7.86/x64",
     "vst2_name": "VST: Vocal Balance (Independent Audio)",
     "vst3_name": "VST3: Vocal Balance (Independent Audio)",
     "vst2_instance": 0,
@@ -17,14 +93,14 @@
   "studio_one_and_smart_app_control": "Requires user validation",
   "images": {
     "VST2": {
-      "bytes": 6050304,
-      "sha256": "0df2401e1495a4ec28f94c419d810f1526619aa08e58e6a0e66b9358643ee8c7",
+      "bytes": 6429184,
+      "sha256": "37148429a45d06e5fa2792b179c4bb828321b1d792e3f6b4b65ae76483f22f0f",
       "linker": "14.44",
       "authenticode_table_present": false
     },
     "VST3": {
-      "bytes": 6419968,
-      "sha256": "0f47cbc58241a0ab7eaf00e3f204c6665af1c5f303d84559343611ab2edceafc",
+      "bytes": 6979584,
+      "sha256": "7b2e2fd593522c73a08a7788452347b2a4102efe71c684c99702972825c14c63",
       "linker": "14.44",
       "authenticode_table_present": false
     }

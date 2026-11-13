@@ -1,0 +1,75 @@
+{
+  "version": "0.2.1",
+  "source": "c4fda759e6531ae54fa85080fd75a3e50d9eb637",
+  "static_crt_required": true,
+  "modules": {
+    "VST2": {
+      "sha256": "37148429a45d06e5fa2792b179c4bb828321b1d792e3f6b4b65ae76483f22f0f",
+      "machine": "8664 (x64)",
+      "exports": "VSTPluginMain",
+      "dependencies": [
+        "ADVAPI32.dll",
+        "COMCTL32.dll",
+        "COMDLG32.dll",
+        "d2d1.dll",
+        "d3d11.dll",
+        "dbghelp.dll",
+        "dcomp.dll",
+        "dwmapi.dll",
+        "dxgi.dll",
+        "GDI32.dll",
+        "IMM32.dll",
+        "KERNEL32.dll",
+        "ole32.dll",
+        "OLEAUT32.dll",
+        "SHELL32.dll",
+        "SHLWAPI.dll",
+        "USER32.dll",
+        "VERSION.dll",
+        "WININET.dll",
+        "WINMM.dll",
+        "WS2_32.dll"
+      ],
+      "dynamic_crt": [],
+      "manifest_resource_2_present": true,
+      "manifest_external_crt": false,
+      "authenticode": "NotSigned"
+    },
+    "VST3": {
+      "sha256": "7b2e2fd593522c73a08a7788452347b2a4102efe71c684c99702972825c14c63",
+      "machine": "8664 (x64)",
+      "exports": [
+        "GetPluginFactory",
+        "InitDll",
+        "ExitDll"
+      ],
+      "dependencies": [
+        "ADVAPI32.dll",
+        "COMCTL32.dll",
+        "COMDLG32.dll",
+        "d2d1.dll",
+        "d3d11.dll",
+        "dbghelp.dll",
+        "dcomp.dll",
+        "dwmapi.dll",
+        "dxgi.dll",
+        "GDI32.dll",
+        "IMM32.dll",
+        "KERNEL32.dll",
+        "ole32.dll",
+        "OLEAUT32.dll",
+        "SHELL32.dll",
+        "SHLWAPI.dll",
+        "USER32.dll",
+        "VERSION.dll",
+        "WININET.dll",
+        "WINMM.dll",
+        "WS2_32.dll"
+      ],
+      "dynamic_crt": [],
+      "manifest_resource_2_present": true,
+      "manifest_external_crt": false,
+      "authenticode": "NotSigned"
+    }
+  }
+}
