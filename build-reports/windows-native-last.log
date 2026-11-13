@@ -1,138 +1,77 @@
-Source: 5e36db2f3744bc5d659d458e7b10e7f751278e39
-Run: https://github.com/aulamix001/Vocal-Rider/actions/runs/43503001094
+Source: 863ed655a1d432d4ee8720bfae762e641a949c92
+Run: https://github.com/aulamix001/Vocal-Rider/actions/runs/43504504288
 -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.20348.
--- The C compiler identification is MSVC 19.44.35229.0
--- The CXX compiler identification is MSVC 19.44.35229.0
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
 -- Configuring juceaide
 -- Building juceaide
 -- Exporting juceaide
 -- Testing juceaide
 -- Finished setting up juceaide
--- Configuring done (109.0s)
+-- Configuring done (9.6s)
 -- Generating done (0.2s)
 -- Build files have been written to: D:/a/Vocal-Rider/Vocal-Rider/build-msvc
 MSBuild version 17.14.60+43b635718 for .NET Framework
 
   Checking File Globs
   1>Checking Build System
-  Generating VocalBalance_artefacts/JuceLibraryCode/VocalBalance_resources.rc
   Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  Generating plugin_tests_artefacts/JuceLibraryCode/plugin_tests_resources.rc
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  VocalBalance_rc_lib.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_rc_lib.dir\Release\VocalBalance_rc_lib.lib
   plugin_tests_rc_lib.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\plugin_tests_rc_lib.dir\Release\plugin_tests_rc_lib.lib
   Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
   Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  PluginProcessor.cpp
-  PluginEditor.cpp
-  HardwareLookAndFeel.cpp
-  juce_audio_processors.cpp
-  juce_VST3ManifestHelper.cpp
+  VocalBalance_rc_lib.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_rc_lib.dir\Release\VocalBalance_rc_lib.lib
   Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-D:\a\Vocal-Rider\Vocal-Rider\Source\PluginEditor.cpp(85,156): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
-  juce_gui_extra.cpp
-  juce_gui_basics.cpp
-  juce_graphics.cpp
-  juce_graphics_Harfbuzz.cpp
-  ReaperDiscovery.cpp
+  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
   VocalBalance_vst3_helper.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\VocalBalance_vst3_helper.exe
-  juce_events.cpp
+  ReaperDiscovery.cpp
+  PluginEditor.cpp
+  PluginProcessor.cpp
+  HardwareLookAndFeel.cpp
      Creating library D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/reaper_vocalbalance_discovery.lib and object D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/reaper_vocalbalance_discovery.exp
-  juce_core.cpp
+D:\a\Vocal-Rider\Vocal-Rider\Source\PluginEditor.cpp(86,156): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
   reaper_vocalbalance_discovery.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\reaper_vocalbalance_discovery.dll
-  juce_core_CompilationTime.cpp
-  juce_data_structures.cpp
-  juce_audio_processors_headless.cpp
-  juce_audio_processors_headless_ara.cpp
-  juce_audio_processors_headless_lv2_libs.cpp
-  juce_audio_basics.cpp
-  juce_audio_utils.cpp
-  juce_audio_formats.cpp
-  juce_audio_devices.cpp
-  juce_graphics_Sheenbidi.c
   VocalBalance.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\VocalBalance_SharedCode.lib
   Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
   LegacyVst2.cpp
-  juce_audio_plugin_client_AAX.cpp
-  juce_audio_plugin_client_AAX_utils.cpp
-  juce_audio_plugin_client_ARA.cpp
-  juce_audio_plugin_client_LV2.cpp
-  juce_audio_plugin_client_Standalone.cpp
-  juce_audio_plugin_client_Unity.cpp
-  juce_audio_plugin_client_VST2.cpp
-  juce_audio_plugin_client_VST3.cpp
-     Creating library D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/VocalBalance.lib and object D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/VocalBalance.exp
-  VocalBalance_VST2.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\VST2\VocalBalance.dll
+  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
      Creating library D:/a/Vocal-Rider/Vocal-Rider/build-msvc/VocalBalance_artefacts/Release/VST3/VocalBalance.lib and object D:/a/Vocal-Rider/Vocal-Rider/build-msvc/VocalBalance_artefacts/Release/VST3/VocalBalance.exp
   VocalBalance_VST3.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\VST3\VocalBalance.vst3\Contents\x86_64-win\VocalBalance.vst3
   removing moduleinfo.json
   creating D:/a/Vocal-Rider/Vocal-Rider/build-msvc/VocalBalance_artefacts/Release/VST3/VocalBalance.vst3
+     Creating library D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/VocalBalance.lib and object D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/VocalBalance.exp
+  VocalBalance_VST2.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\VST2\VocalBalance.dll
   Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
   Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  juce_audio_plugin_client_AAX.cpp
-  juce_audio_plugin_client_AAX_utils.cpp
-  juce_audio_plugin_client_ARA.cpp
-  juce_audio_plugin_client_LV2.cpp
-  juce_audio_plugin_client_Standalone.cpp
-  juce_audio_plugin_client_Unity.cpp
-  juce_audio_plugin_client_VST2.cpp
-  juce_audio_plugin_client_VST3.cpp
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  PluginTests.cpp
-  juce_audio_utils.cpp
-  juce_audio_processors.cpp
-  juce_gui_extra.cpp
   DspTests.cpp
-  juce_gui_basics.cpp
-  juce_graphics.cpp
-  juce_graphics_Harfbuzz.cpp
-  juce_events.cpp
-  VocalBalance_Standalone.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\Standalone\VocalBalance.exe
-  dsp_tests.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\dsp_tests.exe
-  juce_core.cpp
   Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  juce_core_CompilationTime.cpp
-  juce_data_structures.cpp
-  Vst3Smoke.cpp
-  juce_audio_processors_headless.cpp
-  coreiids.cpp
-  funknown.cpp
-  vstinitiids.cpp
-  Generating Code...
   Vst2Smoke.cpp
-  juce_audio_processors_headless_ara.cpp
-  juce_audio_processors_headless_lv2_libs.cpp
-  juce_audio_basics.cpp
-  juce_audio_formats.cpp
-  juce_audio_devices.cpp
-  vst3_smoke.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\vst3_smoke.exe
+  VocalBalance_Standalone.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\Standalone\VocalBalance.exe
+  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
+  dsp_tests.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\dsp_tests.exe
+  PluginTests.cpp
   vst2_smoke.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\vst2_smoke.exe
-  juce_graphics_Sheenbidi.c
+  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
+  Vst3Smoke.cpp
+  vst3_smoke.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\vst3_smoke.exe
   plugin_tests.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\plugin_tests_artefacts\Release\plugin_tests.exe
   Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
 Internal ctest changing into directory: D:/a/Vocal-Rider/Vocal-Rider/build-msvc
 Test project D:/a/Vocal-Rider/Vocal-Rider/build-msvc
     Start 1: dsp
-1/4 Test #1: dsp ..............................   Passed    1.17 sec
+1/4 Test #1: dsp ..............................   Passed    1.47 sec
     Start 2: processor
-2/4 Test #2: processor ........................   Passed    0.23 sec
+2/4 Test #2: processor ........................   Passed    0.58 sec
     Start 3: vst3_module
 3/4 Test #3: vst3_module ......................   Passed    0.10 sec
     Start 4: vst2_module
-4/4 Test #4: vst2_module ......................   Passed    0.50 sec
+4/4 Test #4: vst2_module ......................   Passed    0.42 sec
 
 100% tests passed, 0 tests failed out of 4
 
-Total Test time (real) =   2.05 sec
+Total Test time (real) =   2.63 sec
+Downloading the official REAPER installer
+Downloaded https://www.reaper.fm/files/7.x/reaper785_x64-install.exe
+Installer signature: Valid
+Exception: D:\a\Vocal-Rider\Vocal-Rider\tools\test_reaper_windows.ps1:18
+Line |
+  18 |  … Code -ne 0) { throw "REAPER installer failed: $($install.ExitCode)" }
+     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | REAPER installer failed: 1223
