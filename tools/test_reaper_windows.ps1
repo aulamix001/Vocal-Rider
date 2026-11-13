@@ -31,26 +31,47 @@ Copy-Item "$Build/Release/reaper_vocalbalance_discovery.dll" "$reaper/UserPlugin
 $canonical = Join-Path ${env:CommonProgramFiles} 'VST3'
 New-Item -ItemType Directory -Path $canonical -Force | Out-Null
 Copy-Item "$Build/VocalBalance_artefacts/Release/VST3/VocalBalance.vst3" $canonical -Recurse
+# Cover the standard resource path too on this disposable hosted runner.
+$resource = Join-Path $env:APPDATA 'REAPER'
+New-Item -ItemType Directory -Path "$resource/UserPlugins" -Force | Out-Null
+Copy-Item "$Build/Release/reaper_vocalbalance_discovery.dll" "$resource/UserPlugins/"
+Copy-Item "$reaper/reaper.ini" "$resource/reaper.ini"
 $env:VOCAL_BALANCE_REAPER_REPORT = $Report
 Write-Host 'Launching the dedicated REAPER scan test'
-$process = Start-Process "$reaper/reaper.exe" -ArgumentList @('-new', '-nosplash') -PassThru
+$process = Start-Process "$reaper/reaper.exe" -ArgumentList @('-new', '-nosplash', '-cfgfile', "$reaper/reaper.ini") -PassThru
 try {
   $deadline = (Get-Date).AddSeconds(150)
-  Add-Type -AssemblyName UIAutomationClient
-  Add-Type -AssemblyName UIAutomationTypes
+  Add-Type @'
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+public static class ReaperWindows {
+ public delegate bool EnumProc(IntPtr w,IntPtr p);
+ [DllImport("user32.dll")] static extern bool EnumWindows(EnumProc cb,IntPtr p);
+ [DllImport("user32.dll")] static extern bool EnumChildWindows(IntPtr w,EnumProc cb,IntPtr p);
+ [DllImport("user32.dll")] static extern uint GetWindowThreadProcessId(IntPtr w,out uint p);
+ [DllImport("user32.dll",CharSet=CharSet.Unicode)] static extern int GetWindowText(IntPtr w,StringBuilder s,int n);
+ [DllImport("user32.dll")] static extern IntPtr SendMessage(IntPtr w,uint m,IntPtr a,IntPtr b);
+ public static string[] Inspect(uint pid) {
+  var labels=new List<string>();
+  EnumProc visit=(w,p)=>{var s=new StringBuilder(2048);GetWindowText(w,s,2048);string t=s.ToString();
+   if(t.Length>0) labels.Add(t);
+   if(t.IndexOf("Still Evaluating",StringComparison.OrdinalIgnoreCase)>=0 || t=="OK") SendMessage(w,0xF5,IntPtr.Zero,IntPtr.Zero);
+   return true;};
+  EnumWindows((w,p)=>{uint id;GetWindowThreadProcessId(w,out id);if(id==pid){visit(w,p);EnumChildWindows(w,visit,p);}return true;},IntPtr.Zero);
+  return labels.ToArray();
+ }
+}
+'@
+  $labels = @()
   while (-not (Test-Path $Report) -and (Get-Date) -lt $deadline -and -not $process.HasExited) {
     Start-Sleep -Seconds 2
-    # Dismiss only REAPER's evaluation reminder, without purchasing/activating.
-    $condition = [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $process.Id)
-    $elements = [System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Descendants, $condition)
-    foreach ($element in $elements) {
-      if ($element.Current.Name -match '^(Still Evaluating|Evaluate)$' -and $element.Current.IsEnabled) {
-        $pattern = $null
-        if ($element.TryGetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern, [ref]$pattern)) { $pattern.Invoke() }
-      }
-    }
+    $labels = [ReaperWindows]::Inspect($process.Id)
   }
   if (-not (Test-Path $Report)) {
+    Write-Host ($labels -join " | ")
+    if (Test-Path "$Report.loaded") { Get-Content "$Report.loaded" }
     $loaded = Test-Path "$Report.loaded"
     throw "REAPER did not produce its scan report. Extension loaded: $loaded; process exited: $($process.HasExited)"
   }

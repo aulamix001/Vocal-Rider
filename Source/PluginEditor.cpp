@@ -7,16 +7,16 @@ void setParameter(juce::AudioProcessorValueTreeState& state, const char* id, flo
 }
 }
 void RangeBand::paint(juce::Graphics& g) {
-    const float x=getWidth()*.5f,height=getHeight()-24.f;
+    const float x=getWidth()*.5f,height=getHeight()-70.f;
     const float low=processor.state.getRawParameterValue("lower")->load(),high=processor.state.getRawParameterValue("upper")->load();
-    const auto position=[&](float db){return 10+(12-db)*height/24;};
+    const auto position=[&](float db){return 35+(12-db)*height/24;};
     g.setGradientFill(juce::ColourGradient(juce::Colour{0xffb7ad78}.withAlpha(.35f),x-20,0,juce::Colour{0xffefdf9f}.withAlpha(.14f),x+20,0,false));
     g.fillRect(x-20,position(high),40.f,std::max(0.f,position(low)-position(high)));
-    HardwareLookAndFeel::drawFaderTrack(g,x,10,height+10);
+    HardwareLookAndFeel::drawFaderTrack(g,x,35,height+35);
     for(float value:{low,high}) HardwareLookAndFeel::drawFaderCap(g,{x-27,position(value)-15,54,30},false);
 }
 void RangeBand::mouseDown(const juce::MouseEvent& event) {
-    const float value = 12 - (event.position.y-10)*24/(getHeight()-24);
+    const float value = 12 - (event.position.y-35)*24/(getHeight()-70);
     const float low=processor.state.getRawParameterValue("lower")->load(), high=processor.state.getRawParameterValue("upper")->load();
     lowerHandle = std::abs(value-low) < std::abs(value-high);
     dragging = processor.state.getParameter(lowerHandle ? "lower" : "upper");
@@ -24,7 +24,7 @@ void RangeBand::mouseDown(const juce::MouseEvent& event) {
 }
 void RangeBand::mouseDrag(const juce::MouseEvent& event) {
     if (!dragging) return;
-    float value = juce::jlimit(-12.0f,12.0f,12-(event.position.y-10)*24/(getHeight()-24));
+    float value = juce::jlimit(-12.0f,12.0f,12-(event.position.y-35)*24/(getHeight()-70));
     if (lowerHandle) value = std::min(value, processor.state.getRawParameterValue("upper")->load()-1);
     else value = std::max(value, processor.state.getRawParameterValue("lower")->load()+1);
     dragging->setValueNotifyingHost(dragging->convertTo0to1(value)); repaint();
@@ -121,7 +121,7 @@ void VocalBalanceAudioProcessorEditor::resized(){
     for(size_t i=0;i<toolbar.size();++i)toolbar[i].setBounds(x[i],14,widths[i],18);
     presets.setBounds(64,14,92,18);bypass.setBounds(316,13,62,20);
     controls[0].setBounds(82,49,255,40);controls[1].setBounds(102,107,90,89);controls[2].setBounds(240,107,90,89);attack.setBounds(23,132,70,39);
-    range.setBounds(26,284,104,336);controls[3].setBounds(154,284,112,336);controls[4].setBounds(300,284,86,336);controls[5].setBounds(18,284,25,336);
+    range.setBounds(26,259,104,386);controls[3].setBounds(154,238,112,428);controls[4].setBounds(300,260,86,384);controls[5].setBounds(18,284,25,336);
     for(int i=0;i<3;++i)modeButtons[static_cast<size_t>(i)].setBounds(132+i*52,704,52,23);
 }
 void VocalBalanceAudioProcessorEditor::paint(juce::Graphics& g){

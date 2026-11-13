@@ -1,5 +1,13 @@
 #include "HardwareLookAndFeel.h"
 namespace { const juce::Colour dark{0xff20282c}, ivory{0xffeeecdf}; }
+juce::Slider::SliderLayout HardwareLookAndFeel::getSliderLayout(juce::Slider& slider) {
+    auto layout=juce::LookAndFeel_V4::getSliderLayout(slider);
+    if(slider.getSliderStyle()==juce::Slider::LinearVertical){
+        const int margin=slider.getName()=="rider"?56:(slider.getName()=="output"?34:10);
+        layout.sliderBounds=slider.getLocalBounds().reduced(0,margin);
+    }
+    return layout;
+}
 void HardwareLookAndFeel::drawButtonBackground(juce::Graphics& g,juce::Button& b,const juce::Colour& colour,bool hover,bool down) {
  auto r=b.getLocalBounds().toFloat().reduced(.5f);
  if(b.getName()=="attack-switch") {

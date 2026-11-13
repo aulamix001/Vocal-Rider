@@ -50,9 +50,11 @@ void tick() {
 }
 extern "C" REAPER_PLUGIN_DLL_EXPORT int REAPER_PLUGIN_ENTRYPOINT(REAPER_PLUGIN_HINSTANCE, reaper_plugin_info_t* info) {
     if (!info) { if (host) host->Register("-timer", reinterpret_cast<void*>(tick)); host = nullptr; return 0; }
-    if (info->caller_version != REAPER_PLUGIN_VERSION) return 0;
+
     char path[32768]{}; if (!GetEnvironmentVariableA("VOCAL_BALANCE_REAPER_REPORT", path, sizeof(path))) return 0;
     report = path; host = info;
+    { std::ofstream marker(report + ".loaded"); marker << "Entry version " << info->caller_version << "; expected " << REAPER_PLUGIN_VERSION; }
+    if (info->caller_version != REAPER_PLUGIN_VERSION) return 0;
     enumerate = reinterpret_cast<decltype(enumerate)>(info->GetFunc("EnumInstalledFX"));
     version = reinterpret_cast<decltype(version)>(info->GetFunc("GetAppVersion"));
     insertTrack = reinterpret_cast<decltype(insertTrack)>(info->GetFunc("InsertTrackAtIndex"));

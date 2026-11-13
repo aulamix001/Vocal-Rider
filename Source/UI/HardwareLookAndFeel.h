@@ -2,6 +2,7 @@
 #include <juce_gui_basics/juce_gui_basics.h>
 class HardwareLookAndFeel final : public juce::LookAndFeel_V4 {
 public:
+    juce::Slider::SliderLayout getSliderLayout(juce::Slider&) override;
     static void drawFaderCap(juce::Graphics&, juce::Rectangle<float>, bool rider);
     static void drawFaderTrack(juce::Graphics&, float centre, float top, float bottom);
     void drawButtonBackground(juce::Graphics&, juce::Button&, const juce::Colour&, bool, bool) override;
