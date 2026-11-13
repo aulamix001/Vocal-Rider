@@ -1,77 +1,131 @@
-Source: 863ed655a1d432d4ee8720bfae762e641a949c92
-Run: https://github.com/aulamix001/Vocal-Rider/actions/runs/43504504288
+Source: 47097e6038eae1489731e4c16e1e07a6b5c4e2f5
+Run: https://github.com/aulamix001/Vocal-Rider/actions/runs/43504882292
 -- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.20348.
 -- Configuring juceaide
 -- Building juceaide
 -- Exporting juceaide
 -- Testing juceaide
 -- Finished setting up juceaide
--- Configuring done (9.6s)
--- Generating done (0.2s)
+-- Configuring done (6.4s)
+-- Generating done (0.1s)
 -- Build files have been written to: D:/a/Vocal-Rider/Vocal-Rider/build-msvc
 MSBuild version 17.14.60+43b635718 for .NET Framework
 
   Checking File Globs
-  1>Checking Build System
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  plugin_tests_rc_lib.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\plugin_tests_rc_lib.dir\Release\plugin_tests_rc_lib.lib
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
   VocalBalance_rc_lib.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_rc_lib.dir\Release\VocalBalance_rc_lib.lib
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
+  plugin_tests_rc_lib.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\plugin_tests_rc_lib.dir\Release\plugin_tests_rc_lib.lib
   VocalBalance_vst3_helper.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\VocalBalance_vst3_helper.exe
   ReaperDiscovery.cpp
   PluginEditor.cpp
   PluginProcessor.cpp
   HardwareLookAndFeel.cpp
-     Creating library D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/reaper_vocalbalance_discovery.lib and object D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/reaper_vocalbalance_discovery.exp
 D:\a\Vocal-Rider\Vocal-Rider\Source\PluginEditor.cpp(86,156): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
+     Creating library D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/reaper_vocalbalance_discovery.lib and object D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/reaper_vocalbalance_discovery.exp
   reaper_vocalbalance_discovery.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\reaper_vocalbalance_discovery.dll
   VocalBalance.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\VocalBalance_SharedCode.lib
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
   LegacyVst2.cpp
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
      Creating library D:/a/Vocal-Rider/Vocal-Rider/build-msvc/VocalBalance_artefacts/Release/VST3/VocalBalance.lib and object D:/a/Vocal-Rider/Vocal-Rider/build-msvc/VocalBalance_artefacts/Release/VST3/VocalBalance.exp
   VocalBalance_VST3.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\VST3\VocalBalance.vst3\Contents\x86_64-win\VocalBalance.vst3
   removing moduleinfo.json
   creating D:/a/Vocal-Rider/Vocal-Rider/build-msvc/VocalBalance_artefacts/Release/VST3/VocalBalance.vst3
      Creating library D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/VocalBalance.lib and object D:/a/Vocal-Rider/Vocal-Rider/build-msvc/Release/VocalBalance.exp
   VocalBalance_VST2.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\VST2\VocalBalance.dll
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
   DspTests.cpp
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  Vst2Smoke.cpp
+  Vst3Smoke.cpp
   VocalBalance_Standalone.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_artefacts\Release\Standalone\VocalBalance.exe
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
+  Vst2Smoke.cpp
   dsp_tests.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\dsp_tests.exe
+  vst3_smoke.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\vst3_smoke.exe
   PluginTests.cpp
   vst2_smoke.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\vst2_smoke.exe
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
-  Vst3Smoke.cpp
-  vst3_smoke.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\vst3_smoke.exe
   plugin_tests.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\plugin_tests_artefacts\Release\plugin_tests.exe
-  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
 Internal ctest changing into directory: D:/a/Vocal-Rider/Vocal-Rider/build-msvc
 Test project D:/a/Vocal-Rider/Vocal-Rider/build-msvc
     Start 1: dsp
-1/4 Test #1: dsp ..............................   Passed    1.47 sec
+1/4 Test #1: dsp ..............................   Passed    0.82 sec
     Start 2: processor
-2/4 Test #2: processor ........................   Passed    0.58 sec
+2/4 Test #2: processor ........................   Passed    1.18 sec
     Start 3: vst3_module
-3/4 Test #3: vst3_module ......................   Passed    0.10 sec
+3/4 Test #3: vst3_module ......................   Passed    0.20 sec
     Start 4: vst2_module
-4/4 Test #4: vst2_module ......................   Passed    0.42 sec
+4/4 Test #4: vst2_module ......................   Passed    0.34 sec
 
 100% tests passed, 0 tests failed out of 4
 
-Total Test time (real) =   2.63 sec
+Total Test time (real) =   2.77 sec
 Downloading the official REAPER installer
 Downloaded https://www.reaper.fm/files/7.x/reaper785_x64-install.exe
 Installer signature: Valid
-Exception: D:\a\Vocal-Rider\Vocal-Rider\tools\test_reaper_windows.ps1:18
+
+7-Zip 26.05 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-10-21
+
+Scanning the drive for archives:
+1 file, 17225000 bytes (17 MiB)
+
+Extracting archive: D:\a\_temp\reaper-install.exe
+--
+Path = D:\a\_temp\reaper-install.exe
+Type = PE
+Physical Size = 17225000
+CPU = x86
+Characteristics = Executable 32-bit NoRelocs NoLineNums NoLocalSyms
+Created = 2016-04-02 03:20:09
+Headers Size = 1024
+Checksum = 17278519
+Image Size = 495616
+Section Alignment = 4096
+File Alignment = 512
+Code Size = 24064
+Initialized Data Size = 120320
+Uninitialized Data Size = 1024
+Linker Version = 6.0
+OS Version = 4.0
+Image Version = 6.0
+Subsystem Version = 4.0
+Subsystem = Windows GUI
+DLL Characteristics = TerminalServerAware
+Stack Reserve = 1048576
+Stack Commit = 4096
+Heap Reserve = 1048576
+Heap Commit = 4096
+Virtual Address = 0x400000
+Comment = 
+{
+
+Data Directories: 16
+{
+index=1 name=IMPORT VA=0x7418 Size=160
+index=2 name=RESOURCE VA=0x31000 Size=293400
+index=4 name=SECURITY VA=0x106B138 Size=9200
+index=12 name=IAT VA=0x7000 Size=636
+}
+}
+----
+Path = [0]
+Size = 16890680
+Packed Size = 16890680
+Virtual Size = 16890680
+Offset = 325120
+--
+Path = [0]
+Type = Nsis
+Physical Size = 16890676
+Tail Size = 4
+Method = LZMA:26
+Solid = +
+Headers Size = 154603
+Embedded Stub Size = 0
+SubType = NSIS-2
+
+Everything is Ok
+
+Files: 2428
+Size:       162296326
+Compressed: 17225000
+Portable REAPER: D:\a\_temp\VocalBalance-Reaper\reaper.exe
+Launching the dedicated REAPER scan test
+Exception: D:\a\Vocal-Rider\Vocal-Rider\tools\test_reaper_windows.ps1:55
 Line |
-  18 |  … Code -ne 0) { throw "REAPER installer failed: $($install.ExitCode)" }
-     |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     | REAPER installer failed: 1223
+  55 |      throw "REAPER did not produce its scan report. Extension loaded:  …
+     |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | REAPER did not produce its scan report. Extension loaded: False; process exited: False
