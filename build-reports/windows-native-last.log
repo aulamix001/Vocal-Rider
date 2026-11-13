@@ -1,0 +1,134 @@
+Source: e8a7e1baf8dfadd47e91fe98acaef925ea998197
+Run: https://github.com/aulamix001/Vocal-Rider/actions/runs/43495483956
+-- Selecting Windows SDK version 10.0.26100.0 to target Windows 10.0.20348.
+-- The C compiler identification is MSVC 19.44.35230.0
+-- The CXX compiler identification is MSVC 19.44.35230.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring juceaide
+-- Building juceaide
+-- Exporting juceaide
+-- Testing juceaide
+-- Finished setting up juceaide
+-- Configuring done (108.6s)
+-- Generating done (0.2s)
+-- Build files have been written to: D:/a/Vocal-Rider/Vocal-Rider/build-msvc
+MSBuild version 17.14.60+43b635718 for .NET Framework
+
+  Checking File Globs
+  1>Checking Build System
+  Generating plugin_tests_artefacts/JuceLibraryCode/plugin_tests_resources.rc
+  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
+  Generating VocalBalance_artefacts/JuceLibraryCode/VocalBalance_resources.rc
+  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
+  VocalBalance_rc_lib.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance_rc_lib.dir\Release\VocalBalance_rc_lib.lib
+  plugin_tests_rc_lib.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\plugin_tests_rc_lib.dir\Release\plugin_tests_rc_lib.lib
+  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
+  Building Custom Rule D:/a/Vocal-Rider/Vocal-Rider/CMakeLists.txt
+  juce_VST3ManifestHelper.cpp
+  Plugin.cpp
+  Editor.cpp
+  juce_audio_processors.cpp
+  juce_gui_extra.cpp
+  juce_gui_basics.cpp
+D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(148,153): error C2440: '<function-style-cast>': cannot convert from 'const BalanceEditor::{ctor}::<lambda_ff5a2c56650a8304fb66db9e2b1eff45> *' to 'juce::Component::SafePointer<BalanceEditor>' [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
+      D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(148,153):
+      'juce::Component::SafePointer<BalanceEditor>::SafePointer': no overloaded function could convert all the argument types
+          D:\a\_temp\JUCE\modules\juce_gui_basics\components\juce_Component.h(2398,9):
+          could be 'juce::Component::SafePointer<BalanceEditor>::SafePointer(const juce::Component::SafePointer<BalanceEditor> &) noexcept'
+              D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(148,153):
+              'juce::Component::SafePointer<BalanceEditor>::SafePointer(const juce::Component::SafePointer<BalanceEditor> &) noexcept': cannot convert argument 1 from 'const BalanceEditor::{ctor}::<lambda_ff5a2c56650a8304fb66db9e2b1eff45> *' to 'const juce::Component::SafePointer<BalanceEditor> &'
+                  D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(148,154):
+                  Reason: cannot convert from 'const BalanceEditor::{ctor}::<lambda_ff5a2c56650a8304fb66db9e2b1eff45> *' to 'const juce::Component::SafePointer<BalanceEditor>'
+          D:\a\_temp\JUCE\modules\juce_gui_basics\components\juce_Component.h(2395,9):
+          or       'juce::Component::SafePointer<BalanceEditor>::SafePointer(ComponentType *)'
+          with
+          [
+              ComponentType=BalanceEditor
+          ]
+              D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(148,153):
+              'juce::Component::SafePointer<BalanceEditor>::SafePointer(ComponentType *)': cannot convert argument 1 from 'const BalanceEditor::{ctor}::<lambda_ff5a2c56650a8304fb66db9e2b1eff45> *' to 'ComponentType *'
+          with
+          [
+              ComponentType=BalanceEditor
+          ]
+                  D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(148,154):
+                  Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+          D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(148,153):
+          while trying to match the argument list '(const BalanceEditor::{ctor}::<lambda_ff5a2c56650a8304fb66db9e2b1eff45> *)'
+  
+D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(148,127): error C2119: 'safe': the type for 'auto' cannot be deduced from an empty initializer [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
+D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(152,1): error C2512: 'BalanceEditor::{ctor}::<lambda_ff5a2c56650a8304fb66db9e2b1eff45>::()::<lambda_78781afd3f0a8d00498bf42e60cba750>': no appropriate default constructor available [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
+      D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(152,1):
+      Invalid aggregate initialization
+          D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(152,1):
+          'BalanceEditor::{ctor}::<lambda_ff5a2c56650a8304fb66db9e2b1eff45>::()::<lambda_78781afd3f0a8d00498bf42e60cba750>::safe': private and protected members cannot be initialized without a constructor
+  
+D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(148,12): error C2660: 'juce::FileChooser::launchAsync': function does not take 1 arguments [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
+      D:\a\_temp\JUCE\modules\juce_gui_basics\filebrowser\juce_FileChooser.h(216,10):
+      see declaration of 'juce::FileChooser::launchAsync'
+      D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(148,12):
+      while trying to match the argument list '(int)'
+  
+D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(156,202): error C2440: '<function-style-cast>': cannot convert from 'const BalanceEditor::{ctor}::<lambda_1879d368fce844c36fd492952474c700> *' to 'juce::Component::SafePointer<BalanceEditor>' [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
+      D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(156,202):
+      'juce::Component::SafePointer<BalanceEditor>::SafePointer': no overloaded function could convert all the argument types
+          D:\a\_temp\JUCE\modules\juce_gui_basics\components\juce_Component.h(2398,9):
+          could be 'juce::Component::SafePointer<BalanceEditor>::SafePointer(const juce::Component::SafePointer<BalanceEditor> &) noexcept'
+              D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(156,202):
+              'juce::Component::SafePointer<BalanceEditor>::SafePointer(const juce::Component::SafePointer<BalanceEditor> &) noexcept': cannot convert argument 1 from 'const BalanceEditor::{ctor}::<lambda_1879d368fce844c36fd492952474c700> *' to 'const juce::Component::SafePointer<BalanceEditor> &'
+                  D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(156,203):
+                  Reason: cannot convert from 'const BalanceEditor::{ctor}::<lambda_1879d368fce844c36fd492952474c700> *' to 'const juce::Component::SafePointer<BalanceEditor>'
+          D:\a\_temp\JUCE\modules\juce_gui_basics\components\juce_Component.h(2395,9):
+          or       'juce::Component::SafePointer<BalanceEditor>::SafePointer(ComponentType *)'
+          with
+          [
+              ComponentType=BalanceEditor
+          ]
+              D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(156,202):
+              'juce::Component::SafePointer<BalanceEditor>::SafePointer(ComponentType *)': cannot convert argument 1 from 'const BalanceEditor::{ctor}::<lambda_1879d368fce844c36fd492952474c700> *' to 'ComponentType *'
+          with
+          [
+              ComponentType=BalanceEditor
+          ]
+                  D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(156,203):
+                  Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+          D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(156,202):
+          while trying to match the argument list '(const BalanceEditor::{ctor}::<lambda_1879d368fce844c36fd492952474c700> *)'
+  
+D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(156,176): error C2119: 'safe': the type for 'auto' cannot be deduced from an empty initializer [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
+D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(159,12): error C3536: 'xml': cannot be used before it is initialized [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
+D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(160,1): error C2512: 'BalanceEditor::{ctor}::<lambda_1879d368fce844c36fd492952474c700>::()::<lambda_732ba74aaf5b2a2442ffaaadd3fa36c3>': no appropriate default constructor available [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
+      D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(160,1):
+      Invalid aggregate initialization
+          D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(160,1):
+          'BalanceEditor::{ctor}::<lambda_1879d368fce844c36fd492952474c700>::()::<lambda_732ba74aaf5b2a2442ffaaadd3fa36c3>::safe': private and protected members cannot be initialized without a constructor
+  
+D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(156,12): error C2660: 'juce::FileChooser::launchAsync': function does not take 1 arguments [D:\a\Vocal-Rider\Vocal-Rider\build-msvc\VocalBalance.vcxproj]
+      D:\a\_temp\JUCE\modules\juce_gui_basics\filebrowser\juce_FileChooser.h(216,10):
+      see declaration of 'juce::FileChooser::launchAsync'
+      D:\a\Vocal-Rider\Vocal-Rider\Source\Editor.cpp(156,12):
+      while trying to match the argument list '(int)'
+  
+  juce_graphics.cpp
+  juce_graphics_Harfbuzz.cpp
+  VocalBalance_vst3_helper.vcxproj -> D:\a\Vocal-Rider\Vocal-Rider\build-msvc\Release\VocalBalance_vst3_helper.exe
+  juce_events.cpp
+  juce_core.cpp
+  juce_core_CompilationTime.cpp
+  juce_data_structures.cpp
+  juce_audio_processors_headless.cpp
+  juce_audio_processors_headless_ara.cpp
+  juce_audio_processors_headless_lv2_libs.cpp
+  juce_audio_basics.cpp
+  juce_audio_utils.cpp
+  juce_audio_formats.cpp
+  juce_audio_devices.cpp
