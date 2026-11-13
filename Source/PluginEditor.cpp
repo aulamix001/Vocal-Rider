@@ -113,6 +113,7 @@ void VocalBalanceAudioProcessorEditor::timerCallback(){
     attack.setButtonText(processor.state.getRawParameterValue("attack")->load()<.5f?"Fast":"Slow");
     const int mode=static_cast<int>(processor.state.getRawParameterValue("mode")->load());
     for(int i=0;i<3;++i)modeButtons[static_cast<size_t>(i)].setToggleState(i==mode,juce::dontSendNotification);
+    presets.setSelectedId(processor.getCurrentProgram()+1,juce::dontSendNotification);
     toolbar[0].setEnabled(processor.history.canUndo());toolbar[1].setEnabled(processor.history.canRedo());range.repaint();repaint();
 }
 void VocalBalanceAudioProcessorEditor::resized(){

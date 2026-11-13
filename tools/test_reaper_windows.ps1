@@ -14,9 +14,15 @@ Write-Host "Downloaded $url"
 $signature = Get-AuthenticodeSignature -FilePath $installer
 if ($signature.Status -ne 'Valid') { throw "REAPER installer signature invalid: $($signature.Status)" }
 Write-Host "Installer signature: $($signature.Status)"
-$install = Start-Process -FilePath $installer -ArgumentList @('/S', "/D=$reaper") -Wait -PassThru
-if ($install.ExitCode -ne 0) { throw "REAPER installer failed: $($install.ExitCode)" }
-if (-not (Test-Path "$reaper/reaper.exe")) { throw 'REAPER executable missing.' }
+# Extract the verified installer into an isolated portable directory. NSIS
+# installation requests elevation (1223 on the hosted desktop); extraction
+# does not modify the registry or require the installer UI.
+& 7z x $installer "-o$reaper" -y
+if ($LASTEXITCODE -ne 0) { throw 'Could not extract the official REAPER installer.' }
+$executable = Get-ChildItem -LiteralPath $reaper -Filter reaper.exe -Recurse | Select-Object -First 1
+if (-not $executable) { throw 'REAPER executable missing after extraction.' }
+$reaper = $executable.DirectoryName
+Write-Host "Portable REAPER: $($executable.FullName)"
 # reaper.ini beside the executable selects portable mode (no user settings changed).
 $vst2 = (Resolve-Path "$Build/VocalBalance_artefacts/Release/VST2").Path
 "[REAPER]`nvstpath64=$vst2`n" | Set-Content "$reaper/reaper.ini" -Encoding ascii
