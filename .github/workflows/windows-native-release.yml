@@ -13,7 +13,7 @@ permissions:
   contents: write
 concurrency:
   group: native-windows-release
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: windows-2022
@@ -32,7 +32,12 @@ jobs:
           $actual = git -C "$env:RUNNER_TEMP/JUCE" rev-parse HEAD
           if ($actual.Trim() -ne '29396c22c93392d6738e021b83196283d6e4d850') { throw 'Unexpected JUCE revision.' }
       - name: Configure Visual Studio 2022 x64
-        run: cmake -S . -B build-msvc -G "Visual Studio 17 2022" -A x64 -T v143 -DJUCE_SOURCE_DIR="$env:RUNNER_TEMP/JUCE" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL
+        shell: pwsh
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $false
+          & cmake -S . -B build-msvc -G "Visual Studio 17 2022" -A x64 -T v143 "-DJUCE_SOURCE_DIR=$env:RUNNER_TEMP/JUCE" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/native-windows-configure.log"
+          $result = $LASTEXITCODE
+          if ($result -ne 0) { exit $result }
       - name: Build native modules and hosts
         shell: pwsh
         run: |
@@ -68,7 +73,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path build-reports -Force | Out-Null
           $report = @("Source: $env:GITHUB_SHA", "Run: https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID")
-          foreach ($name in @('native-windows-build.log', 'native-windows-tests.log')) {
+          foreach ($name in @('native-windows-configure.log', 'native-windows-build.log', 'native-windows-tests.log')) {
             $path = Join-Path $env:RUNNER_TEMP $name
             if (Test-Path -LiteralPath $path) { $report += Get-Content -LiteralPath $path -Tail 1600 }
           }
@@ -90,5 +95,6 @@ jobs:
             build-msvc/VocalBalance_artefacts/Release/VST3/
             build-reports/
             ${{ runner.temp }}/windows-tests.xml
+            ${{ runner.temp }}/native-windows-configure.log
             ${{ runner.temp }}/native-windows-build.log
             ${{ runner.temp }}/native-windows-tests.log

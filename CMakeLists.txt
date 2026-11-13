@@ -56,7 +56,11 @@ if(VB_BUILD_PLUGIN)
   add_test(NAME plugin COMMAND plugin_tests)
   if(WIN32 OR CMAKE_SYSTEM_NAME STREQUAL "Linux")
     get_target_property(VB_MODULES juce::juce_audio_processors INTERFACE_JUCE_MODULE_PATH)
-    set(VB_SDK "${VB_MODULES}/juce_audio_processors/format_types/VST3_SDK")
+    if(EXISTS "${VB_MODULES}/juce_audio_processors_headless/format_types/VST3_SDK")
+      set(VB_SDK "${VB_MODULES}/juce_audio_processors_headless/format_types/VST3_SDK")
+    else()
+      set(VB_SDK "${VB_MODULES}/juce_audio_processors/format_types/VST3_SDK")
+    endif()
     add_executable(vst3_smoke tests/Vst3Smoke.cpp
       "${VB_SDK}/pluginterfaces/base/coreiids.cpp"
       "${VB_SDK}/pluginterfaces/base/funknown.cpp"

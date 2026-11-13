@@ -66,7 +66,9 @@ def main():
             licenses.mkdir()
             shutil.copy2(args.juce / 'LICENSE.md', licenses / 'JUCE-LICENSE.md')
             shutil.copy2(root / 'third_party/xaymar-vst2/LICENSE', licenses / 'xaymar-vst2-LICENSE.txt')
-            sdk = args.juce / 'modules/juce_audio_processors/format_types/VST3_SDK'
+            sdk = args.juce / 'modules/juce_audio_processors_headless/format_types/VST3_SDK'
+            if not sdk.is_dir():
+                sdk = args.juce / 'modules/juce_audio_processors/format_types/VST3_SDK'
             for name in ['LICENSE.txt', 'VST3_License_Agreement.pdf']:
                 if (sdk / name).is_file():
                     shutil.copy2(sdk / name, licenses / ('VST3-' + name))
