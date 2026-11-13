@@ -19,9 +19,12 @@ VST2: copie a DLL para a pasta VST2 do DAW. VST3: copie a pasta `.vst3` inteira 
 
 [Informações do build](downloads/WINDOWS_NATIVE_BUILD.json) · [Checksums](downloads/SHA256SUMS.txt)
 
+![Interface própria do Vocal Balance](docs/VocalBalance-editor.png)
+
 ## Compilar no Windows
 
 Instale Visual Studio 2022 com Desktop development with C++, CMake e Git.
+Você pode abrir esta pasta no Visual Studio e selecionar o preset `windows-vs2022-x64`.
 No Developer PowerShell, a partir da raiz do checkout:
 
 ```powershell

@@ -130,11 +130,11 @@ int main(int argc, char** argv) {
  require(window!=nullptr,"native Windows host window");ShowWindow(window,SW_SHOW);
  #else
  Display* display = XOpenDisplay(nullptr); require(display != nullptr, "X11 test display");
- Window window = XCreateSimpleWindow(display, DefaultRootWindow(display), 0, 0, 420, 740, 0, 0, 0);
+ Window window = XCreateSimpleWindow(display, DefaultRootWindow(display), 0, 0, 420, 784, 0, 0, 0);
  XMapWindow(display, window); XSync(display, False);
  #endif
  vst_rect* rect = nullptr; require(dispatch(effect, 13, 0, 0, &rect) == 1, "editor rectangle");
- require(rect && rect->right == 420 && rect->bottom == 740, "editor dimensions");
+ require(rect && rect->right == 420 && rect->bottom == 784, "editor dimensions");
  require(dispatch(effect, 14, 0, 0, reinterpret_cast<void*>(window)) == 1, "native editor open");
  for (int i = 0; i < 8; ++i) {
   std::this_thread::sleep_for(std::chrono::milliseconds(10)); dispatch(effect,19);

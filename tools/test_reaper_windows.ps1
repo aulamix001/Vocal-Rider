@@ -3,14 +3,17 @@ $ErrorActionPreference = 'Stop'
 # Fresh hosted runner only; use a dedicated portable installation and resource directory.
 $reaper = Join-Path $env:RUNNER_TEMP 'VocalBalance-Reaper'
 New-Item -ItemType Directory -Path $reaper -Force | Out-Null
+Write-Host 'Downloading the official REAPER installer'
 $page = Invoke-WebRequest 'https://www.reaper.fm/download.php' -UseBasicParsing
 $match = [regex]::Match($page.Content, 'files/[0-9]+\.x/reaper[0-9]+_x64-install\.exe')
 if (-not $match.Success) { throw 'Official REAPER x64 download was not found.' }
 $url = 'https://www.reaper.fm/' + $match.Value
 $installer = Join-Path $env:RUNNER_TEMP 'reaper-install.exe'
 Invoke-WebRequest $url -OutFile $installer
+Write-Host "Downloaded $url"
 $signature = Get-AuthenticodeSignature -FilePath $installer
 if ($signature.Status -ne 'Valid') { throw "REAPER installer signature invalid: $($signature.Status)" }
+Write-Host "Installer signature: $($signature.Status)"
 $install = Start-Process -FilePath $installer -ArgumentList @('/S', "/D=$reaper") -Wait -PassThru
 if ($install.ExitCode -ne 0) { throw "REAPER installer failed: $($install.ExitCode)" }
 if (-not (Test-Path "$reaper/reaper.exe")) { throw 'REAPER executable missing.' }
@@ -23,6 +26,7 @@ $canonical = Join-Path ${env:CommonProgramFiles} 'VST3'
 New-Item -ItemType Directory -Path $canonical -Force | Out-Null
 Copy-Item "$Build/VocalBalance_artefacts/Release/VST3/VocalBalance.vst3" $canonical -Recurse
 $env:VOCAL_BALANCE_REAPER_REPORT = $Report
+Write-Host 'Launching the dedicated REAPER scan test'
 $process = Start-Process "$reaper/reaper.exe" -ArgumentList @('-new', '-nosplash') -PassThru
 try {
   $deadline = (Get-Date).AddSeconds(150)

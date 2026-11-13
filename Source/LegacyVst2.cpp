@@ -77,7 +77,7 @@ private:
  juce::AudioBuffer<float> scratch;
  juce::MidiBuffer midi;
  juce::MemoryBlock chunk;
- vst_rect rectangle{0, 0, 740, 420};
+ vst_rect rectangle{0, 0, 784, 420};
  double sampleRate = 48000;
  int blockSize = 512;
  bool active = false;
@@ -183,7 +183,7 @@ private:
      if (!data) return 0;
      if (!instance.editor) instance.editor.reset(processor.createEditorIfNeeded());
      if (!instance.editor) return 0;
-     instance.editor->setBounds(0, 0, 420, 740);
+     instance.editor->setBounds(0, 0, 420, 784);
      instance.editor->addToDesktop(0, data);
      instance.editor->setVisible(true);
      return 1;

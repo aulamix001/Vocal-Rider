@@ -1,0 +1,31 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": { "major": 3, "minor": 22, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "windows-vs2022-x64",
+      "displayName": "Visual Studio 2022 — Windows x64",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "toolset": "v143",
+      "binaryDir": "${sourceDir}/build/windows-x64",
+      "cacheVariables": { "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreadedDLL" },
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
+    },
+    {
+      "name": "linux-release",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/linux-release",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" },
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "windows-release", "configurePreset": "windows-vs2022-x64", "configuration": "Release", "jobs": 2 },
+    { "name": "linux-release", "configurePreset": "linux-release", "jobs": 2 }
+  ],
+  "testPresets": [
+    { "name": "windows-release", "configurePreset": "windows-vs2022-x64", "configuration": "Release", "output": { "outputOnFailure": true } },
+    { "name": "linux-release", "configurePreset": "linux-release", "output": { "outputOnFailure": true } }
+  ]
+}

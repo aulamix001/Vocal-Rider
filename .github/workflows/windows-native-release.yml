@@ -6,6 +6,7 @@ on:
       - .github/workflows/windows-native-release.yml
       - tools/**
       - CMakeLists.txt
+      - CMakePresets.json
       - Source/**
       - tests/**
   workflow_dispatch:
@@ -65,7 +66,9 @@ jobs:
       - name: Discover and load both formats in REAPER x64
         shell: pwsh
         run: |
-          & ./tools/test_reaper_windows.ps1 -Build build-msvc -Report "$env:RUNNER_TEMP/reaper-discovery.json" 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/native-windows-reaper.log"
+          $PSNativeCommandUseErrorActionPreference = $false
+          & pwsh -NoProfile -File ./tools/test_reaper_windows.ps1 -Build build-msvc -Report "$env:RUNNER_TEMP/reaper-discovery.json" 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/native-windows-reaper.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Package only after the native tests pass
         run: python tools/package_windows_native.py --artifacts build-msvc/VocalBalance_artefacts/Release --test-report "$env:RUNNER_TEMP/windows-tests.xml" --reaper-report "$env:RUNNER_TEMP/reaper-discovery.json" --juce "$env:RUNNER_TEMP/JUCE" --source-sha "$env:GITHUB_SHA" --version 0.2.0
       - name: Publish verified downloads to this repository
@@ -111,6 +114,7 @@ jobs:
             build-msvc/VocalBalance_artefacts/Release/VST2/
             build-msvc/VocalBalance_artefacts/Release/VST3/
             build-reports/
+            build-msvc/VocalBalance-editor.png
             ${{ runner.temp }}/windows-tests.xml
             ${{ runner.temp }}/native-windows-configure.log
             ${{ runner.temp }}/native-windows-build.log

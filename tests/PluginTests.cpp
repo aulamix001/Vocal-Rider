@@ -17,7 +17,7 @@ int main(int argc,char**argv){
  auto layout=p.getBusesLayout();layout.inputBuses.set(0,juce::AudioChannelSet::mono());layout.outputBuses.set(0,juce::AudioChannelSet::mono());check(p.setBusesLayout(layout),"mono layout accepted");
  layout.inputBuses.set(0,juce::AudioChannelSet::stereo());layout.outputBuses.set(0,juce::AudioChannelSet::stereo());layout.inputBuses.set(1,juce::AudioChannelSet::stereo());check(p.setBusesLayout(layout),"stereo plus music accepted");
  auto invalid=layout;invalid.outputBuses.set(0,juce::AudioChannelSet::mono());check(!p.isBusesLayoutSupported(invalid),"mismatched buses rejected");
- std::unique_ptr<juce::AudioProcessorEditor> editor(p.createEditor());check(editor&&editor->getWidth()==420&&editor->getHeight()==740,"editor geometry");
+ std::unique_ptr<juce::AudioProcessorEditor> editor(p.createEditor());check(editor&&editor->getWidth()==420&&editor->getHeight()==784,"editor geometry");
  p.state.copyState();p.history.clearUndoHistory();p.history.beginNewTransaction("Target");set(p,"target",-12);p.state.copyState();check(p.history.canUndo(),"undo available");p.history.undo();check(std::abs(p.state.getRawParameterValue("target")->load()+18)<.01f,"undo restores parameter");p.history.redo();check(std::abs(p.state.getRawParameterValue("target")->load()+12)<.01f,"redo restores edit");
  set(p,"mode",1);p.gainDb.store(5);auto deadline=juce::Time::getMillisecondCounter()+2000;
  do{juce::Thread::sleep(10);juce::Timer::callPendingTimersSynchronously();}while(std::abs(p.state.getRawParameterValue("rider")->load()-5)>.1f&&juce::Time::getMillisecondCounter()<deadline);

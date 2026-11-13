@@ -29,3 +29,7 @@ A publicação automática exige quatro testes nativos aprovados, PE x64 produzi
 pelo linker Microsoft e descoberta/instanciação dos dois formatos no REAPER real.
 O relatório publicado registra a versão do host. Isso não valida Studio One,
 Smart App Control nem a instalação específica no computador do usuário.
+
+O painel próprio tem 420 × 784 px e segue as proporções da última imagem recebida.
+Metal cinza, couro, sombras, chanfros, ranhuras e marcações são desenhados no JUCE.
+A régua central tem passos visuais de 0,5 dB. Nenhum bitmap da referência entra no plugin.
