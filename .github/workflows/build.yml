@@ -1,0 +1,19 @@
+name: Build Windows Plugins
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S . -B build -A x64
+      - run: cmake --build build --config Release --parallel 4
+      - run: ctest --test-dir build -C Release --output-on-failure
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Vocal-Balance-Windows-x64
+          path: |
+            build/VocalBalance_artefacts/Release/VST3/
+            build/VocalBalance_artefacts/Release/Standalone/
+            build/VocalBalance_artefacts/Release/VST2/
+            third_party/xaymar-vst2/LICENSE
+            docs/THIRD_PARTY.md
