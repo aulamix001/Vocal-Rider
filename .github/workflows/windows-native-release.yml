@@ -4,7 +4,7 @@ on:
     branches: [main]
     paths:
       - .github/workflows/windows-native-release.yml
-      - tools/package_windows_native.py
+      - tools/**
       - CMakeLists.txt
       - Source/**
       - tests/**
@@ -30,8 +30,8 @@ jobs:
           path: |
             ${{ runner.temp }}/JUCE
             build-msvc
-          key: windows-vs2022-juce8012-v1-${{ github.run_id }}
-          restore-keys: windows-vs2022-juce8012-v1-
+          key: windows-vs2022-juce8012-v2-${{ github.run_id }}
+          restore-keys: windows-vs2022-juce8012-v2-
       - name: Fetch the verified JUCE version used for the native build
         shell: pwsh
         run: |
@@ -62,8 +62,12 @@ jobs:
           & ctest --test-dir build-msvc -C Release --output-on-failure --output-junit "$env:RUNNER_TEMP/windows-tests.xml" 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/native-windows-tests.log"
           $result = $LASTEXITCODE
           if ($result -ne 0) { exit $result }
+      - name: Discover and load both formats in REAPER x64
+        shell: pwsh
+        run: |
+          & ./tools/test_reaper_windows.ps1 -Build build-msvc -Report "$env:RUNNER_TEMP/reaper-discovery.json" 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/native-windows-reaper.log"
       - name: Package only after the native tests pass
-        run: python tools/package_windows_native.py --artifacts build-msvc/VocalBalance_artefacts/Release --test-report "$env:RUNNER_TEMP/windows-tests.xml" --juce "$env:RUNNER_TEMP/JUCE" --source-sha "$env:GITHUB_SHA" --version 0.1.1
+        run: python tools/package_windows_native.py --artifacts build-msvc/VocalBalance_artefacts/Release --test-report "$env:RUNNER_TEMP/windows-tests.xml" --reaper-report "$env:RUNNER_TEMP/reaper-discovery.json" --juce "$env:RUNNER_TEMP/JUCE" --source-sha "$env:GITHUB_SHA" --version 0.2.0
       - name: Publish verified downloads to this repository
         shell: pwsh
         run: |
@@ -75,8 +79,8 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -f build-reports/windows-native-last.log
-          git add README.md downloads/README.md downloads/SHA256SUMS.txt downloads/WINDOWS_NATIVE_BUILD.json downloads/VocalBalance-0.1.1-VST2-Windows-x64-MSVC.zip downloads/VocalBalance-0.1.1-VST3-Windows-x64-MSVC.zip downloads/VocalBalance-0.1.1-Sources.zip
-          git commit -m 'Publish natively tested Windows MSVC 0.1.1 packages [skip ci]'
+          git add README.md downloads/README.md downloads/SHA256SUMS.txt downloads/WINDOWS_NATIVE_BUILD.json downloads/VocalBalance-0.2.0-VST2-Windows-x64-MSVC.zip downloads/VocalBalance-0.2.0-VST3-Windows-x64-MSVC.zip downloads/VocalBalance-0.2.0-Sources.zip
+          git commit -m 'Publish natively tested Windows MSVC 0.2.0 packages [skip ci]'
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           git push origin HEAD:main
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -86,7 +90,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path build-reports -Force | Out-Null
           $report = @("Source: $env:GITHUB_SHA", "Run: https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID")
-          foreach ($name in @('native-windows-configure.log', 'native-windows-build.log', 'native-windows-tests.log')) {
+          foreach ($name in @('native-windows-configure.log', 'native-windows-build.log', 'native-windows-tests.log', 'native-windows-reaper.log')) {
             $path = Join-Path $env:RUNNER_TEMP $name
             if (Test-Path -LiteralPath $path) { $report += Get-Content -LiteralPath $path -Tail 1600 }
           }
@@ -111,10 +115,13 @@ jobs:
             ${{ runner.temp }}/native-windows-configure.log
             ${{ runner.temp }}/native-windows-build.log
             ${{ runner.temp }}/native-windows-tests.log
+            ${{ runner.temp }}/native-windows-reaper.log
+            ${{ runner.temp }}/reaper-discovery.json
+            ${{ runner.temp }}/reaper-vstplugins*.ini
       - uses: actions/cache/save@v4
         if: always() && steps.cache.outputs.cache-hit != 'true'
         with:
           path: |
             ${{ runner.temp }}/JUCE
             build-msvc
-          key: windows-vs2022-juce8012-v1-${{ github.run_id }}
+          key: windows-vs2022-juce8012-v2-${{ github.run_id }}

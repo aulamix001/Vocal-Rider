@@ -27,8 +27,8 @@ try {
 } finally { $chain.Dispose() }
 $artifacts = (Resolve-Path -LiteralPath $ArtifactsDirectory).Path
 $files = @(
-    (Join-Path $artifacts 'VST2\Vocal Balance.dll'),
-    (Join-Path $artifacts 'VST3\Vocal Balance.vst3\Contents\x86_64-win\Vocal Balance.vst3')
+    (Join-Path $artifacts 'VST2\VocalBalance.dll'),
+    (Join-Path $artifacts 'VST3\VocalBalance.vst3\Contents\x86_64-win\VocalBalance.vst3')
 )
 foreach ($file in $files) { if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { throw "Missing artifact: $file" } }
 if (-not $SignToolPath) {

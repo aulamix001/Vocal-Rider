@@ -1,23 +1,22 @@
-# Dependências e fontes
+# Dependências
 
-- JUCE 8.0.4 (build padrão): https://github.com/juce-framework/JUCE/tree/51d11a2be6d5c97ccf12b4e5e827006e19f0555a
-  Licença AGPLv3 ou licença comercial JUCE. Os arquivos de licença e avisos estão
-  no checkout da dependência e se aplicam ao software combinado.
-- JUCE 7.0.12 (compilação cruzada MinGW): https://github.com/juce-framework/JUCE/tree/4f43011b96eb0636104cb3e433894cda98243626
-  Licença GPLv3 ou licença JUCE 7 aplicável. Não confundir seus termos com JUCE 8.
-- VST3 SDK: versão incorporada em cada versão JUCE, em
-  `modules/juce_audio_processors/format_types/VST3_SDK`; consultar os respectivos
-  arquivos de licença. Não há SDK VST2 no checkout.
-- MinGW-w64/GCC/binutils e pacotes Debian: ferramentas de compilação baixadas dos
-  repositórios Debian assinados; a toolchain não integra o código-fonte do plugin.
+- JUCE **8.0.12**, commit `29396c22c93392d6738e021b83196283d6e4d850`:
+  https://github.com/juce-framework/JUCE/tree/8.0.12 . AGPLv3 ou licença comercial
+  JUCE aplicável. A licença MIT do nosso código não relicencia a dependência.
+  Para distribuição fechada, obtenha a licença adequada. Fontes próprias completas
+  acompanham a distribuição pública no repositório e no ZIP Sources.
+- VST3 SDK incorporado ao JUCE, em
+  `modules/juce_audio_processors_headless/format_types/VST3_SDK`.
+  Seus avisos/licenças são incluídos nos ZIPs; preserve-os na redistribuição.
+- xaymar-vst2: ABI independente, copyright Michael Fabian 'Xaymar' Dirks,
+  DISTRHO/DPF commit `4238e1c7f0351bbe488d79f0899c540543ac7583`.
+  Header/licença BSD em `third_party/xaymar-vst2`; não é o SDK proprietário VST2
+  e não concede direitos de marca.
+- Header da API REAPER, Cockos Incorporated, SDK commit
+  `b2ca1ec92c9a7864fb72346037986a384971ed03`. Licença permissiva integral
+  preservada em `third_party/reaper-sdk/reaper_plugin.h`. Usado só na extensão
+  de teste Windows. O REAPER é baixado do fornecedor no CI e não redistribuído.
 
-O código próprio sob MIT não relicencia JUCE ou outras dependências. Para distribuir
-os binários, cumpra a licença escolhida para o conjunto e preserve os avisos
-aplicáveis. A distribuição de código fechado requer avaliar a licença comercial
-adequada. Não se presume que uma licença de JUCE conceda direitos sobre VST2.
-
-- xaymar-vst2: interface independente para interoperabilidade, copyright Michael
-  Fabian 'Xaymar' Dirks, proveniente de DISTRHO/DPF commit
-  `4238e1c7f0351bbe488d79f0899c540543ac7583`. O header e os avisos originais estão
-  em `third_party/xaymar-vst2`. A distribuição inclui o LICENSE BSD com suas
-  condições; não é o SDK da Steinberg nem concede direitos de marca.
+Visual Studio/MSVC são ferramentas da Microsoft. As compilações Windows usam
+runtime dinâmico e requerem Visual C++ Redistributable x64 (2015–2022 ou compatível).
+Nenhum código, logotipo ou recurso gráfico da Waves foi incluído.

@@ -7,7 +7,7 @@
   #define WIN32_LEAN_AND_MEAN
  #endif
 #endif
-#include "Plugin.h"
+#include "PluginProcessor.h"
 #if !defined(_WIN32) && !defined(__cdecl)
  #define __cdecl
 #endif
@@ -38,9 +38,9 @@ constexpr int legacyVersion = ((JucePlugin_VersionCode >> 16) & 0xffff) * 10000
                             + ((JucePlugin_VersionCode >> 8) & 0xff) * 100
                             + (JucePlugin_VersionCode & 0xff);
 
-class LegacyInstance final : private juce::AudioProcessorListener {
+class Vst2CompatibilityInstance final : private juce::AudioProcessorListener {
 public:
- explicit LegacyInstance(vst_host_callback callback) : host(callback) {
+ explicit Vst2CompatibilityInstance(vst_host_callback callback) : host(callback) {
   auto layout = processor.getBusesLayout();
   layout.inputBuses.set(1, juce::AudioChannelSet::stereo());
   if (!processor.setBusesLayout(layout)) throw std::runtime_error("Sidechain layout unavailable");
@@ -56,13 +56,13 @@ public:
   effect.num_outputs = 2;
   effect.flags = 1 | (1 << 4) | (1 << 5); // Editor, replacing, state chunks.
   effect.effect_internal = this;
-  effect.unique_id = 0x56623031; // Vb01, same product identity as our VST3.
+  effect.unique_id = static_cast<int32_t>(JucePlugin_PluginCode);
   effect.version = legacyVersion;
   effect._unknown_float_00 = 1.0f;
   processor.addListener(this);
   configure();
  }
- ~LegacyInstance() override {
+ ~Vst2CompatibilityInstance() override {
   editor.reset();
   processor.removeListener(this);
   processor.releaseResources();
@@ -71,7 +71,7 @@ public:
 
 private:
  juce::ScopedJuceInitialiser_GUI gui;
- VocalBalance processor;
+ VocalBalanceAudioProcessor processor;
  vst_host_callback host;
  std::unique_ptr<juce::AudioProcessorEditor> editor;
  juce::AudioBuffer<float> scratch;
@@ -82,7 +82,7 @@ private:
  int blockSize = 512;
  bool active = false;
 
- static LegacyInstance& self(vst_effect* e) { return *static_cast<LegacyInstance*>(e->effect_internal); }
+ static Vst2CompatibilityInstance& self(vst_effect* e) { return *static_cast<Vst2CompatibilityInstance*>(e->effect_internal); }
  void configure() {
   // Called only from host lifecycle dispatch, never the audio callback.
   scratch.setSize(4, blockSize);
@@ -256,7 +256,7 @@ private:
 }
 extern "C" VB_EXPORT vst_effect* VST_FUNCTION_INTERFACE VSTPluginMain(vst_host_callback host) {
  if (!host) return nullptr;
- try { return &(new LegacyInstance(host))->effect; } catch (...) { return nullptr; }
+ try { return &(new Vst2CompatibilityInstance(host))->effect; } catch (...) { return nullptr; }
 }
 #if JUCE_WINDOWS
 extern "C" BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID) {

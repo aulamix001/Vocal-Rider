@@ -109,3 +109,31 @@ anteriores do plugin. Evite manter o ZIP extraído inteiro como uma segunda cóp
 na pasta de busca: no VST3, copie a pasta `Vocal Balance.vst3` diretamente para
 `C:\Program Files\Common Files\VST3\`. Uma cópia antiga ainda presente na busca
 pode continuar produzindo o aviso, mesmo depois da instalação da nova.
+
+## Reconstrução 0.2.0: DAW abre mas plugin ausente
+
+O erro de política e a ausência na lista são sintomas diferentes. A reconstrução
+usa novo identificador e nomes compactos para uma nova varredura, sem migrar
+sessões da 0.1. O CI precisa encontrar e instanciar VST2 e VST3 no REAPER Windows
+antes de publicar. Consulte `downloads/WINDOWS_NATIVE_BUILD.json` para os resultados.
+
+Com o DAW fechado, mova as cópias antigas do Vocal Balance para fora das pastas
+VST. Extraia o ZIP antes de instalar. Para VST3, a estrutura deve ser exatamente:
+
+```
+C:\Program Files\Common Files\VST3\VocalBalance.vst3\Contents\x86_64-win\VocalBalance.vst3
+```
+
+Não copie só o arquivo interno nem deixe o ZIP ou uma pasta de versão entre
+`VST3` e `VocalBalance.vst3`. Para VST2, coloque `VocalBalance.dll` numa pasta
+configurada em Preferences > Plug-ins > VST do REAPER (host x64). Instale o
+Visual C++ Redistributable x64 oficial: https://aka.ms/vs/17/release/vc_redist.x64.exe .
+
+REAPER: Preferences > Plug-ins > VST > Re-scan > Clear cache and re-scan.
+Studio One: Options > Locations > VST Plug-ins, confirme o caminho VST2 e use
+Reset Blocklist; reinicie para uma nova busca. Os nomes de menus podem variar.
+Procure pelo nome **Vocal Balance** na lista de efeitos.
+
+Se reaparecer 0xC0E90002, uma nova busca não resolve o bloqueio de Application
+Control; consulte o diagnóstico de política acima. Esta versão não declara
+aceitação pelo Smart App Control nem validação em Studio One 8.

@@ -32,9 +32,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--artifacts', type=Path, required=True)
     parser.add_argument('--test-report', type=Path, required=True)
+    parser.add_argument('--reaper-report', type=Path, required=True)
     parser.add_argument('--juce', type=Path, required=True)
     parser.add_argument('--source-sha', required=True)
-    parser.add_argument('--version', default='0.1.1')
+    parser.add_argument('--version', default='0.2.0')
     args = parser.parse_args()
     if os.name != 'nt':
         raise RuntimeError('Native release packaging must run on Windows')
@@ -45,13 +46,16 @@ def main():
     failures = sum(int(s.get('failures', 0)) + int(s.get('errors', 0)) + int(s.get('skipped', 0)) for s in suites)
     if tests < 4 or failures:
         raise RuntimeError(f'Required native tests did not all pass: tests={tests}, failures/skipped={failures}')
-    names = {'VST2': Path('VST2/Vocal Balance.dll'),
-             'VST3': Path('VST3/Vocal Balance.vst3/Contents/x86_64-win/Vocal Balance.vst3')}
+    reaper = json.loads(args.reaper_report.read_text(encoding='utf-8-sig'))
+    if not reaper.get('passed') or reaper.get('vst2_instance', -1) < 0 or reaper.get('vst3_instance', -1) < 0:
+        raise RuntimeError('REAPER did not discover and load both plugin formats')
+    names = {'VST2': Path('VST2/VocalBalance.dll'),
+             'VST3': Path('VST3/VocalBalance.vst3/Contents/x86_64-win/VocalBalance.vst3')}
     images = {fmt: pe_info(args.artifacts / path) for fmt, path in names.items()}
     metadata = {'version': args.version, 'source_commit': args.source_sha,
                 'build_os': 'Windows x64', 'compiler': 'Microsoft Visual C++ / Visual Studio 2022',
                 'juce': '8.0.12', 'native_tests_passed': tests,
-                'reaper_studio_one_and_smart_app_control': 'Requires user validation', 'images': images}
+                'reaper_windows': reaper, 'studio_one_and_smart_app_control': 'Requires user validation', 'images': images}
     output = root / 'downloads'
     output.mkdir(exist_ok=True)
     for fmt in names:
@@ -59,9 +63,9 @@ def main():
         with tempfile.TemporaryDirectory() as tmp:
             stage = Path(tmp)
             if fmt == 'VST2':
-                shutil.copy2(args.artifacts / names[fmt], stage / 'Vocal Balance.dll')
+                shutil.copy2(args.artifacts / names[fmt], stage / 'VocalBalance.dll')
             else:
-                shutil.copytree(args.artifacts / 'VST3/Vocal Balance.vst3', stage / 'Vocal Balance.vst3')
+                shutil.copytree(args.artifacts / 'VST3/VocalBalance.vst3', stage / 'VocalBalance.vst3')
             licenses = stage / 'licenses'
             licenses.mkdir()
             shutil.copy2(args.juce / 'LICENSE.md', licenses / 'JUCE-LICENSE.md')
@@ -75,8 +79,8 @@ def main():
             for name in ['LICENSE', 'docs/THIRD_PARTY.md', 'docs/WINDOWS_LOADING.md']:
                 shutil.copy2(root / name, stage / Path(name).name)
             (stage / 'BUILD-INFO.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
-            instruction = (r'Copie Vocal Balance.dll para a pasta VST2 configurada no DAW.' if fmt == 'VST2'
-                           else r'Copie a pasta inteira Vocal Balance.vst3 para C:\Program Files\Common Files\VST3\ .')
+            instruction = (r'Copie VocalBalance.dll para a pasta VST2 configurada no DAW.' if fmt == 'VST2'
+                           else r'Copie a pasta inteira VocalBalance.vst3 para C:\Program Files\Common Files\VST3\ .')
             (stage / 'INSTALAR.txt').write_text(
                 f'VOCAL BALANCE {args.version} - {fmt} WINDOWS X64 - MSVC\n\n'
                 'Feche os DAWs e remova as copias anteriores do Vocal Balance das pastas de busca.\n'
@@ -105,7 +109,7 @@ def main():
     links = '\n\n'.join(f'[**Baixar {fmt} Windows x64 — MSVC {args.version}**]({base}VocalBalance-{args.version}-{fmt}-Windows-x64-MSVC.zip)' for fmt in names)
     section = ('## Download compilado — Windows x64\n\n' + links + '\n\n'
                f'Versão **{args.version}**, compilada no Windows com **Visual C++ / JUCE 8.0.12**, '
-               f'com **{tests}/{tests} testes nativos aprovados**.\n\n'
+               f'com **{tests}/{tests} testes nativos aprovados** e VST2/VST3 encontrados e carregados no **REAPER {reaper["version"]}**.\n\n'
                'VST2: copie a DLL para a pasta VST2 do DAW. VST3: copie a pasta `.vst3` inteira para '
                '`C:\\Program Files\\Common Files\\VST3\\`. Remova as cópias antigas antes de atualizar a busca.\n\n'
                '**Sem assinatura Authenticode:** o carregamento com Controle Inteligente de Aplicativos '
@@ -119,7 +123,7 @@ def main():
     readme.write_text(text[:start] + section + text[end:], encoding='utf-8')
     (output / 'README.md').write_text('# Vocal Balance — Windows x64 nativo\n\n' + links + '\n\n'
         f'Versão {args.version}. Visual C++ e JUCE 8.0.12; {tests}/{tests} testes em Windows aprovados.\n'
-        'O comportamento em Reaper/Studio One e a aceitação pelo Smart App Control precisam da validação do usuário.\n\n'
+        f'REAPER {reaper["version"]}: VST2 e VST3 encontrados e instanciados. Studio One e Smart App Control ainda precisam de validação no computador do usuário.\n\n'
         '[Dados do build](WINDOWS_NATIVE_BUILD.json) · [SHA-256](SHA256SUMS.txt)\n', encoding='utf-8')
     print(json.dumps(metadata, indent=2))
 

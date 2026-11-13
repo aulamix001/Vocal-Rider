@@ -32,7 +32,7 @@ ctest --test-dir build -C Release --output-on-failure
 
 O primeiro configure baixa o JUCE oficial fixado por commit. Para uma cópia local,
 acrescente `-DJUCE_SOURCE_DIR=C:/caminho/JUCE`. Os artefatos ficam em
-`build/VocalBalance_artefacts/Release/`. Copie a pasta `Vocal Balance.vst3` para
+`build/VocalBalance_artefacts/Release/`. Copie a pasta `VocalBalance.vst3` para
 `C:\Program Files\Common Files\VST3` e faça o DAW procurar plugins novamente.
 O executável standalone fica em `Standalone`. A compilação Windows precisa ser
 validada em Windows; sucesso no Linux não a comprova.
@@ -52,7 +52,7 @@ ctest --test-dir build --output-on-failure
 ```
 
 Copie o bundle VST3 de `build/VocalBalance_artefacts/Release/VST3/` para `~/.vst3/`.
-Execute `build/VocalBalance_artefacts/Release/Standalone/Vocal Balance` numa sessão
+Execute `build/VocalBalance_artefacts/Release/Standalone/VocalBalance` numa sessão
 gráfica e configure o dispositivo de áudio pelo botão de opções do JUCE.
 Sem servidor gráfico ou dispositivo, use os testes offline. Para testar somente o
 DSP, sem baixar JUCE: `cmake -S . -B build-dsp -DVB_BUILD_PLUGIN=OFF`, seguido de
@@ -60,17 +60,15 @@ DSP, sem baixar JUCE: `cmake -S . -B build-dsp -DVB_BUILD_PLUGIN=OFF`, seguido d
 
 ## Operação
 
-Insira na trilha de voz. Ajuste Target conforme o nível RMS desejado, Activity
-abaixo da voz mas acima do ruído, e os limites de ganho. Attack Slow produz
+Insira na trilha de voz. Ajuste Target conforme o nível RMS desejado, Vocal Sensitivity para distinguir voz de ruído, e os limites de ganho. Attack Slow produz
 movimento mais lento; Fast acompanha mudanças mais rapidamente. Idle define o
 ganho nos intervalos sem voz. Envie o instrumental ao sidechain para usar Music
 Sensitivity. Ajuste Output para o nível final. Bypass mantém áudio seco.
 Todos os controles são parâmetros do host; o projeto do DAW salva o estado.
 Off usa o detector interno; Write publica o fader Rider ao DAW a 30 Hz; Read segue
-a automação do parâmetro Rider. Arme Write/Touch no DAW para gravar. A integração
-com um DAW real ainda não foi validada.
+a automação do parâmetro Rider. Arme Write/Touch no DAW para gravar. A descoberta no REAPER Windows faz parte da publicação 0.2.0; Studio One ainda requer validação.
 Os presets de fábrica substituem Target, Range, Vocal Sensitivity, Attack e Output,
-preservando os demais controles. Valores manuais são salvos no estado do host. Load/Save importam e exportam
+incluindo Music e Idle, preservando o modo de automação. Valores manuais são salvos no estado do host. Load/Save importam e exportam
 arquivos XML `.vbpreset`; A/B compara duas configurações da sessão e as setas
 desfazem/refazem alterações de parâmetros. O botão ? abre a ajuda. O ganho pode causar clipping em etapas posteriores.
 
@@ -108,3 +106,5 @@ caminho é fornecido, usa-se o wrapper JUCE do SDK em vez do adaptador independe
 
 O workflow `.github/workflows/build.yml` prepara os artefatos Windows quando
 executado no GitHub. Criar o workflow não executa nem valida um DAW Windows.
+
+Veja a [arquitetura da reconstrução 0.2.0](docs/REBUILD.md).
