@@ -31,8 +31,8 @@ jobs:
           path: |
             ${{ runner.temp }}/JUCE
             build-msvc
-          key: windows-vs2022-juce8012-v2-${{ github.run_id }}
-          restore-keys: windows-vs2022-juce8012-v2-
+          key: windows-vs2022-juce8012-static-v3-${{ github.run_id }}
+          restore-keys: windows-vs2022-juce8012-static-v3-
       - name: Fetch the verified JUCE version used for the native build
         shell: pwsh
         run: |
@@ -42,11 +42,20 @@ jobs:
           }
           $actual = git -C "$env:RUNNER_TEMP/JUCE" rev-parse HEAD
           if ($actual.Trim() -ne '29396c22c93392d6738e021b83196283d6e4d850') { throw 'Unexpected JUCE revision.' }
+      - name: Audit published 0.2.0 before the CRT change
+        shell: pwsh
+        run: |
+          $old = Join-Path $env:RUNNER_TEMP 'VocalBalance-before'
+          New-Item -ItemType Directory -Path "$old/VST2", "$old/VST3" -Force | Out-Null
+          Expand-Archive downloads/VocalBalance-0.2.0-VST2-Windows-x64-MSVC.zip "$old/VST2"
+          Expand-Archive downloads/VocalBalance-0.2.0-VST3-Windows-x64-MSVC.zip "$old/VST3"
+          & pwsh -NoProfile -File tools/audit_windows_modules.ps1 -Artifacts $old -Version 0.2.0 2>&1 | Tee-Object "$env:RUNNER_TEMP/native-windows-audit.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Configure Visual Studio 2022 x64
         shell: pwsh
         run: |
           $PSNativeCommandUseErrorActionPreference = $false
-          & cmake -S . -B build-msvc -G "Visual Studio 17 2022" -A x64 -T v143 "-DJUCE_SOURCE_DIR=$env:RUNNER_TEMP/JUCE" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/native-windows-configure.log"
+          & cmake -S . -B build-msvc -G "Visual Studio 17 2022" -A x64 -T v143 "-DJUCE_SOURCE_DIR=$env:RUNNER_TEMP/JUCE" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/native-windows-configure.log"
           $result = $LASTEXITCODE
           if ($result -ne 0) { exit $result }
       - name: Build native modules and hosts
@@ -56,6 +65,11 @@ jobs:
           & cmake --build build-msvc --config Release --parallel 2 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/native-windows-build.log"
           $result = $LASTEXITCODE
           if ($result -ne 0) { exit $result }
+      - name: Enforce x64 exports and static CRT on release modules
+        shell: pwsh
+        run: |
+          & pwsh -NoProfile -File tools/audit_windows_modules.ps1 -Artifacts build-msvc/VocalBalance_artefacts/Release -Version 0.2.1 -RequireStatic 2>&1 | Tee-Object "$env:RUNNER_TEMP/native-windows-audit-after.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Test actual Windows DLL loading, audio and editor
         shell: pwsh
         run: |
@@ -70,7 +84,7 @@ jobs:
           & pwsh -NoProfile -File ./tools/test_reaper_windows.ps1 -Build build-msvc -Report "$env:RUNNER_TEMP/reaper-discovery.json" 2>&1 | Tee-Object -FilePath "$env:RUNNER_TEMP/native-windows-reaper.log"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Package only after the native tests pass
-        run: python tools/package_windows_native.py --artifacts build-msvc/VocalBalance_artefacts/Release --test-report "$env:RUNNER_TEMP/windows-tests.xml" --reaper-report "$env:RUNNER_TEMP/reaper-discovery.json" --juce "$env:RUNNER_TEMP/JUCE" --source-sha "$env:GITHUB_SHA" --version 0.2.0
+        run: python tools/package_windows_native.py --artifacts build-msvc/VocalBalance_artefacts/Release --test-report "$env:RUNNER_TEMP/windows-tests.xml" --reaper-report "$env:RUNNER_TEMP/reaper-discovery.json" --audit-report docs/windows-audit/0.2.1-audit.json --juce "$env:RUNNER_TEMP/JUCE" --source-sha "$env:GITHUB_SHA" --version 0.2.1
       - name: Publish verified downloads to this repository
         shell: pwsh
         run: |
@@ -82,8 +96,8 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -f build-reports/windows-native-last.log
-          git add README.md downloads/README.md downloads/SHA256SUMS.txt downloads/WINDOWS_NATIVE_BUILD.json downloads/VocalBalance-0.2.0-VST2-Windows-x64-MSVC.zip downloads/VocalBalance-0.2.0-VST3-Windows-x64-MSVC.zip downloads/VocalBalance-0.2.0-Sources.zip
-          git commit -m 'Publish natively tested Windows MSVC 0.2.0 packages [skip ci]'
+          git add docs/windows-audit README.md downloads/README.md downloads/SHA256SUMS.txt downloads/WINDOWS_NATIVE_BUILD.json downloads/VocalBalance-0.2.1-VST2-Windows-x64-MSVC.zip downloads/VocalBalance-0.2.1-VST3-Windows-x64-MSVC.zip downloads/VocalBalance-0.2.1-Sources.zip
+          git commit -m 'Publish natively tested Windows MSVC 0.2.1 packages [skip ci]'
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           git push origin HEAD:main
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
@@ -93,7 +107,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path build-reports -Force | Out-Null
           $report = @("Source: $env:GITHUB_SHA", "Run: https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID")
-          foreach ($name in @('native-windows-configure.log', 'native-windows-build.log', 'native-windows-tests.log', 'native-windows-reaper.log')) {
+          foreach ($name in @('native-windows-configure.log', 'native-windows-build.log', 'native-windows-tests.log', 'native-windows-reaper.log', 'native-windows-audit.log', 'native-windows-audit-after.log')) {
             $path = Join-Path $env:RUNNER_TEMP $name
             if (Test-Path -LiteralPath $path) { $report += Get-Content -LiteralPath $path -Tail 1600 }
           }
@@ -114,6 +128,7 @@ jobs:
             build-msvc/VocalBalance_artefacts/Release/VST2/
             build-msvc/VocalBalance_artefacts/Release/VST3/
             build-reports/
+            docs/windows-audit/
             build-msvc/VocalBalance-editor.png
             ${{ runner.temp }}/windows-tests.xml
             ${{ runner.temp }}/native-windows-configure.log
@@ -128,4 +143,4 @@ jobs:
           path: |
             ${{ runner.temp }}/JUCE
             build-msvc
-          key: windows-vs2022-juce8012-v2-${{ github.run_id }}
+          key: windows-vs2022-juce8012-static-v3-${{ github.run_id }}

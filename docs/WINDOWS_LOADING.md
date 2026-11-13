@@ -137,3 +137,49 @@ Procure pelo nome **Vocal Balance** na lista de efeitos.
 Se reaparecer 0xC0E90002, uma nova busca não resolve o bloqueio de Application
 Control; consulte o diagnóstico de política acima. Esta versão não declara
 aceitação pelo Smart App Control nem validação em Studio One 8.
+
+## 0.2.1 — CRT estático, auditoria de PE e exports
+
+O erro **0xC0E90002** é `STATUS_SYSTEM_INTEGRITY_POLICY_VIOLATION`.
+Não é um diagnóstico de runtime ausente ou de manifest SxS. Um runtime ausente
+costuma produzir `0xC0000135`; arquitetura incompatível, `0xC000007B`; falha de
+activation context/SxS usa outros códigos, como `0xC0150002` ou Win32 14001.
+Trocar /MD por /MT remove uma dependência real, mas não garante autorização
+pela política de integridade/Smart App Control do computador.
+
+A versão 0.2.0 usa /MD. A 0.2.1 fixa CMP0091 antes de `project()`, define
+`CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded$<$<CONFIG:Debug>:Debug>` antes de criar
+qualquer target e recusa compilador Windows que não seja MSVC x64. Assim Release
+usa /MT e Debug /MTd, incluindo JUCE, wrappers e testes. Os arquivos .vcxproj
+correspondem a `RuntimeLibrary=MultiThreaded` na configuração Release.
+
+O CI roda `dumpbin /headers`, `/dependents`, `/exports` e `mt.exe` em ambos os
+formatos, antes (ZIP 0.2.0 preservado) e depois (0.2.1). Os relatórios em
+`docs/windows-audit/` são gerados pelas ferramentas Microsoft reais. A publicação
+é recusada se faltarem GetPluginFactory/InitDll/ExitDll no VST3, VSTPluginMain no
+VST2, se a arquitetura não for 8664/x64, se houver import do CRT dinâmico ou
+manifest referenciando um assembly VC CRT. Um manifest resource #2 ausente é
+registrado como ausente, não inventado. As tabelas do binário e os testes de carga
+verificam a saída final; não é preciso adicionar uma segunda fábrica VST3 ao JUCE.
+
+O caminho relatado contém uma pasta adicional com sufixo `(1)`. Instale somente
+a pasta `VocalBalance.vst3` diretamente em `C:\Program Files\Common Files\VST3\`.
+Essa pasta adicional pode atrapalhar a busca, mas por si só não explica o código
+de bloqueio por política. O arquivo PE interno permanece dentro do bundle;
+não renomeie esse arquivo nem copie apenas ele para a raiz VST3.
+
+Para verificar o computador real, cada ZIP inclui `Diagnose-WindowsInstall.ps1`
+e os relatórios do build. No PowerShell, use `-Module` com o caminho exato do PE
+instalado. O script lê hash, assinatura, arquitetura, Zone.Identifier, eventos
+CodeIntegrity e disponibilidade das dependências do build em System32. Ele
+não modifica configurações por padrão. `-Unblock` remove apenas a marca da Internet
+do arquivo escolhido; isso não desativa nem ignora Application Control.
+Nenhum certificado foi fabricado ou copiado. Os binários continuam sem assinatura.
+
+Após baixar um ZIP conhecido e conferir seu SHA256, pode-se usar `Unblock-File
+-LiteralPath 'C:\caminho\arquivo.zip'` antes de extrair. Feche o REAPER, substitua
+as versões antigas e faça **Preferences > Plug-ins > VST > Re-scan > Clear cache
+and re-scan**. Se persistir 0xC0E90002, os eventos CodeIntegrity do computador são
+a evidência necessária para determinar a regra/assinatura/reputação envolvida.
+A nuvem não possui acesso ao Windows do usuário para executar esse diagnóstico
+ou confirmar que o erro desapareceu nele.

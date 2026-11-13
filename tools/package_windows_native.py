@@ -33,9 +33,10 @@ def main():
     parser.add_argument('--artifacts', type=Path, required=True)
     parser.add_argument('--test-report', type=Path, required=True)
     parser.add_argument('--reaper-report', type=Path, required=True)
+    parser.add_argument('--audit-report', type=Path, required=True)
     parser.add_argument('--juce', type=Path, required=True)
     parser.add_argument('--source-sha', required=True)
-    parser.add_argument('--version', default='0.2.0')
+    parser.add_argument('--version', default='0.2.1')
     args = parser.parse_args()
     if os.name != 'nt':
         raise RuntimeError('Native release packaging must run on Windows')
@@ -52,9 +53,16 @@ def main():
     names = {'VST2': Path('VST2/VocalBalance.dll'),
              'VST3': Path('VST3/VocalBalance.vst3/Contents/x86_64-win/VocalBalance.vst3')}
     images = {fmt: pe_info(args.artifacts / path) for fmt, path in names.items()}
+    audit = json.loads(args.audit_report.read_text(encoding='utf-8-sig'))
+    if not audit['static_crt_required'] or audit['version'] != args.version:
+        raise RuntimeError('Missing static CRT audit')
+    for fmt, info in images.items():
+        verified = audit['modules'][fmt]
+        if verified['sha256'] != info['sha256'] or verified['dynamic_crt'] or verified['manifest_external_crt']:
+            raise RuntimeError('Audit does not match the released binary')
     metadata = {'version': args.version, 'source_commit': args.source_sha,
                 'build_os': 'Windows x64', 'compiler': 'Microsoft Visual C++ / Visual Studio 2022',
-                'juce': '8.0.12', 'native_tests_passed': tests,
+                'juce': '8.0.12', 'crt': 'static /MT (Release)', 'module_audit': audit, 'native_tests_passed': tests,
                 'reaper_windows': reaper, 'studio_one_and_smart_app_control': 'Requires user validation', 'images': images}
     output = root / 'downloads'
     output.mkdir(exist_ok=True)
@@ -78,6 +86,8 @@ def main():
                     shutil.copy2(sdk / name, licenses / ('VST3-' + name))
             for name in ['LICENSE', 'docs/THIRD_PARTY.md', 'docs/WINDOWS_LOADING.md']:
                 shutil.copy2(root / name, stage / Path(name).name)
+            shutil.copytree(root / 'docs/windows-audit', stage / 'windows-audit')
+            shutil.copy2(root / 'tools/Diagnose-WindowsInstall.ps1', stage / 'Diagnose-WindowsInstall.ps1')
             (stage / 'BUILD-INFO.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
             instruction = (r'Copie VocalBalance.dll para a pasta VST2 configurada no DAW.' if fmt == 'VST2'
                            else r'Copie a pasta inteira VocalBalance.vst3 para C:\Program Files\Common Files\VST3\ .')
@@ -86,7 +96,7 @@ def main():
                 'Feche os DAWs e remova as copias anteriores do Vocal Balance das pastas de busca.\n'
                 + instruction + '\nAtualize a busca de plugins.\n\n'
                 'Compilado e testado nativamente no Windows com Visual C++ e JUCE 8.0.12.\n'
-                'Requer Microsoft Visual C++ Redistributable x64 (familia 2015-2022).\n'
+                'CRT estatico /MT: nao requer o pacote VC++ Redistributable para estes modulos.\n'
                 'Build sem assinatura; a aceitacao pelo Smart App Control ainda depende da politica e reputacao.\n'
                 'Veja BUILD-INFO.json e WINDOWS_LOADING.md.\n', encoding='utf-8')
             with zipfile.ZipFile(output / filename, 'w', zipfile.ZIP_DEFLATED) as archive:
@@ -98,7 +108,7 @@ def main():
                 raise RuntimeError('Corrupt ZIP: ' + filename)
     (output / 'WINDOWS_NATIVE_BUILD.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
     source_zip = output / f'VocalBalance-{args.version}-Sources.zip'
-    files = subprocess.check_output(['git', 'ls-files'], cwd=root, text=True).splitlines()
+    files = sorted(set(subprocess.check_output(['git', 'ls-files'], cwd=root, text=True).splitlines()) | {str(p.relative_to(root)).replace('\\', '/') for p in (root / 'docs/windows-audit').rglob('*') if p.is_file()})
     with zipfile.ZipFile(source_zip, 'w', zipfile.ZIP_DEFLATED) as archive:
         for name in files:
             if not name.startswith(('downloads/', 'build-reports/')) and (root / name).is_file():
@@ -109,7 +119,7 @@ def main():
     links = '\n\n'.join(f'[**Baixar {fmt} Windows x64 — MSVC {args.version}**]({base}VocalBalance-{args.version}-{fmt}-Windows-x64-MSVC.zip)' for fmt in names)
     section = ('## Download compilado — Windows x64\n\n' + links + '\n\n'
                f'Versão **{args.version}**, compilada no Windows com **Visual C++ / JUCE 8.0.12**, '
-               f'com **{tests}/{tests} testes nativos aprovados** e VST2/VST3 encontrados e carregados no **REAPER {reaper["version"]}**.\n\n'
+               f'CRT **estático /MT**, com **{tests}/{tests} testes nativos aprovados** e VST2/VST3 encontrados e carregados no **REAPER {reaper["version"]}**.\n\n'
                'VST2: copie a DLL para a pasta VST2 do DAW. VST3: copie a pasta `.vst3` inteira para '
                '`C:\\Program Files\\Common Files\\VST3\\`. Remova as cópias antigas antes de atualizar a busca.\n\n'
                '**Sem assinatura Authenticode:** o carregamento com Controle Inteligente de Aplicativos '

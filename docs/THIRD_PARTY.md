@@ -17,6 +17,7 @@
   preservada em `third_party/reaper-sdk/reaper_plugin.h`. Usado só na extensão
   de teste Windows. O REAPER é baixado do fornecedor no CI e não redistribuído.
 
-Visual Studio/MSVC são ferramentas da Microsoft. As compilações Windows usam
-runtime dinâmico e requerem Visual C++ Redistributable x64 (2015–2022 ou compatível).
+Visual Studio/MSVC são ferramentas da Microsoft. A partir de 0.2.1, as compilações Windows usam
+runtime estático /MT em Release; estes módulos não requerem VC++ Redistributable.
+Os termos de redistribuição do runtime Microsoft continuam aplicáveis.
 Nenhum código, logotipo ou recurso gráfico da Waves foi incluído.

@@ -31,6 +31,9 @@ cmake --build build --config Release --parallel 4
 ctest --test-dir build -C Release --output-on-failure
 ```
 
+Release usa CRT estático `/MT` (Debug `/MTd`); o projeto recusa Windows não x64.
+Os exports e imports dos binários são auditados antes da publicação.
+
 O primeiro configure baixa o JUCE oficial fixado por commit. Para uma cópia local,
 acrescente `-DJUCE_SOURCE_DIR=C:/caminho/JUCE`. Os artefatos ficam em
 `build/VocalBalance_artefacts/Release/`. Copie a pasta `VocalBalance.vst3` para
