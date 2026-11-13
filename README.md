@@ -7,19 +7,17 @@ VST3, módulo de compatibilidade VST2 e standalone; Windows e Linux x64.
 
 ## Download compilado — Windows x64
 
-[**Baixar VST2 Windows x64 — MSVC 0.1.1**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.1-VST2-Windows-x64-MSVC.zip)
+[**Baixar VST2 Windows x64 — MSVC 0.2.0**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.2.0-VST2-Windows-x64-MSVC.zip)
 
-[**Baixar VST3 Windows x64 — MSVC 0.1.1**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.1-VST3-Windows-x64-MSVC.zip)
+[**Baixar VST3 Windows x64 — MSVC 0.2.0**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.2.0-VST3-Windows-x64-MSVC.zip)
 
-Versão **0.1.1**, compilada no Windows com **Visual C++ / JUCE 8.0.12**, com **4/4 testes nativos aprovados**.
+Versão **0.2.0**, compilada no Windows com **Visual C++ / JUCE 8.0.12**, com **4/4 testes nativos aprovados** e VST2/VST3 encontrados e carregados no **REAPER 7.85/x64**.
 
 VST2: copie a DLL para a pasta VST2 do DAW. VST3: copie a pasta `.vst3` inteira para `C:\Program Files\Common Files\VST3\`. Remova as cópias antigas antes de atualizar a busca.
 
 **Sem assinatura Authenticode:** o carregamento com Controle Inteligente de Aplicativos ativado ainda precisa ser confirmado no seu computador. [Comparação e diagnóstico](docs/WINDOWS_LOADING.md).
 
 [Informações do build](downloads/WINDOWS_NATIVE_BUILD.json) · [Checksums](downloads/SHA256SUMS.txt)
-
-![Interface própria do Vocal Balance](docs/VocalBalance-editor.png)
 
 ## Compilar no Windows
 

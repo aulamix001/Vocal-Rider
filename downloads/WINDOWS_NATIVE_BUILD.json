@@ -1,21 +1,30 @@
 {
-  "version": "0.1.1",
-  "source_commit": "e38d289cf465e23656085994475e2f65b56e9917",
+  "version": "0.2.0",
+  "source_commit": "8733295d84b4b36e03870995be439e1f55fbd13b",
   "build_os": "Windows x64",
   "compiler": "Microsoft Visual C++ / Visual Studio 2022",
   "juce": "8.0.12",
   "native_tests_passed": 4,
-  "reaper_studio_one_and_smart_app_control": "Requires user validation",
+  "reaper_windows": {
+    "host": "REAPER",
+    "version": "7.85/x64",
+    "vst2_name": "VST: Vocal Balance (Independent Audio)",
+    "vst3_name": "VST3: Vocal Balance (Independent Audio)",
+    "vst2_instance": 0,
+    "vst3_instance": 1,
+    "passed": true
+  },
+  "studio_one_and_smart_app_control": "Requires user validation",
   "images": {
     "VST2": {
-      "bytes": 6040576,
-      "sha256": "5676cfa4c88a43460367d9e9b9cdc9053558081b9aaed9cb06d1dcc2de91ce4c",
+      "bytes": 6050304,
+      "sha256": "0df2401e1495a4ec28f94c419d810f1526619aa08e58e6a0e66b9358643ee8c7",
       "linker": "14.44",
       "authenticode_table_present": false
     },
     "VST3": {
-      "bytes": 6410752,
-      "sha256": "e7f16d9cb9645577511e6e14ce1405c1fee95998c343692c57ecb9973fce3a4f",
+      "bytes": 6419968,
+      "sha256": "0f47cbc58241a0ab7eaf00e3f204c6665af1c5f303d84559343611ab2edceafc",
       "linker": "14.44",
       "authenticode_table_present": false
     }
