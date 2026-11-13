@@ -7,9 +7,14 @@ VST3, módulo de compatibilidade VST2 e standalone; Windows e Linux x64.
 
 ## Download compilado — Windows x64
 
+[**Baixar Vocal Balance VST3 — ZIP (pasta .vst3 + instruções)**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST3-Windows-x64.zip)
+
 [**Baixar Vocal Balance VST2 — ZIP (DLL + instruções)**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST2-Windows-x64.zip)
 
-Extraia `Vocal Balance.dll` e copie para a pasta VST2 configurada no seu DAW.
+**VST3:** copie a pasta inteira `Vocal Balance.vst3` para
+`C:\Program Files\Common Files\VST3\`.
+
+**VST2:** extraia `Vocal Balance.dll` e copie para a pasta VST2 configurada no seu DAW.
 É um plugin de **64 bits**. A DLL foi compilada e inspecionada; ainda precisa ser
 validada em um DAW Windows. A suíte Linux passou em 4/4 testes, incluindo
 carregamento e processamento pelo módulo real.

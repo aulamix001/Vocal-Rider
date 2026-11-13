@@ -1,2 +1,3 @@
 0470b84b83ff8d044f9643579bfe45a8f52e32e65078c1baf6353a5b84888b28  VocalBalance-0.1.0-VST2-Sources.zip
 d2c0ce07fcc285c8d4a857d4582ae2dacbfbc9a9f85dc0daf2001178c5cfdfee  VocalBalance-0.1.0-VST2-Windows-x64.zip
+6b6376cb85e838e6c1ce40e71f9e6e2dfdf668c56b1baf3c95056bd443e6f084  VocalBalance-0.1.0-VST3-Windows-x64.zip

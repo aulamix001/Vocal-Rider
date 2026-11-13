@@ -1,10 +1,13 @@
 # Vocal Balance — arquivos compilados
 
+- [Baixar VST3 Windows x64](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST3-Windows-x64.zip)
 - [Baixar VST2 Windows x64](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST2-Windows-x64.zip)
 - [Código-fonte](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST2-Sources.zip)
 - [SHA256SUMS.txt](SHA256SUMS.txt)
 
-O ZIP inclui a DLL, instruções de instalação e licenças aplicáveis. O módulo
+Cada ZIP inclui o plugin, instruções de instalação e licenças aplicáveis.
+VST3: copie a pasta `.vst3` inteira para `C:\Program Files\Common Files\VST3\`.
+VST2: copie a DLL para a pasta VST2 configurada no DAW. O módulo
 mantém o processamento e a interface do Vocal Balance. Compilei para Windows
 x64, mas o carregamento em um DAW Windows ainda precisa de validação. Testes
 Linux: 4/4 aprovados. Consulte `docs/VST2.md` para roteamento de sidechain.
