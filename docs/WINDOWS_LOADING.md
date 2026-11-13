@@ -30,10 +30,20 @@ Os testes agora também são compilados e executados pelo workflow Windows nativ
 
 ## Distribuição com assinatura
 
-A próxima distribuição para esse cenário precisa de uma assinatura de código
-confiável, validada e com timestamp. Um certificado autoassinado não equivale a
-uma identidade de editor confiável para essa política. A aceitação final também
-depende da política e do estado de confiança do computador.
+Uma assinatura de código confiável é uma via de distribuição com identidade de
+editor verificável. Ela não é a única explicação para um arquivo ser aceito:
+o Controle Inteligente de Aplicativos também considera reputação. O DLL CHi Metric
+Match Pro fornecido pelo usuário funciona no computador e também não contém
+assinatura Authenticode. Portanto, não foi demonstrado que um certificado seja a
+única solução para o caso. A aceitação final depende da política e do estado de
+confiança do computador.
+
+A comparação estática mostrou CHi Metric com linker MSVC 14.44 e JUCE 8.0.12,
+contra os builds iniciais Vocal Balance com GNU/MinGW e JUCE 7.0.12. Isso é uma
+diferença concreta de toolchain, não prova de causalidade do bloqueio. A versão
+0.1.1 usa JUCE 8.0.12 e um build nativo Windows/Visual Studio 2022, com execução
+dos hosts de teste Windows e publicação condicionada a todos os testes passarem.
+Não são copiados assinatura, identidade, código ou recursos do DLL comparado.
 
 O projeto agora inclui:
 
@@ -49,8 +59,8 @@ O projeto agora inclui:
 - Builds normais identificados como `UNSIGNED-DEVELOPMENT`.
 
 Não há certificado/chave de assinatura configurado neste ambiente. A assinatura
-real não foi executada e nenhum pacote assinado foi publicado. Os downloads
-atuais continuam sendo builds de desenvolvimento sem assinatura.
+real não foi executada e nenhum pacote assinado foi publicado. Os downloads continuam sendo builds sem assinatura; a avaliação individual pelo
+Controle Inteligente precisa ser verificada no computador do usuário.
 
 ### Usar um certificado existente no Windows
 

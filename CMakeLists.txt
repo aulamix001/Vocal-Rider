@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(VocalBalance VERSION 0.1.0 LANGUAGES C CXX)
+project(VocalBalance VERSION 0.1.1 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(VB_BUILD_PLUGIN "Build JUCE VST3 and standalone" ON)
@@ -13,7 +13,7 @@ if(VB_BUILD_PLUGIN)
     add_subdirectory(${JUCE_SOURCE_DIR} JUCE)
   else()
     include(FetchContent)
-    FetchContent_Declare(JUCE GIT_REPOSITORY https://github.com/juce-framework/JUCE.git GIT_TAG 51d11a2be6d5c97ccf12b4e5e827006e19f0555a GIT_SHALLOW FALSE)
+    FetchContent_Declare(JUCE GIT_REPOSITORY https://github.com/juce-framework/JUCE.git GIT_TAG 29396c22c93392d6738e021b83196283d6e4d850 GIT_SHALLOW FALSE)
     FetchContent_MakeAvailable(JUCE)
   endif()
   set(VB_FORMATS VST3 Standalone)
@@ -40,6 +40,9 @@ if(VB_BUILD_PLUGIN)
     target_compile_definitions(VocalBalance_VST2 PRIVATE
       $<TARGET_PROPERTY:VocalBalance,COMPILE_DEFINITIONS>)
     target_link_libraries(VocalBalance_VST2 PRIVATE VocalBalance)
+    if(WIN32 AND TARGET VocalBalance_rc_lib)
+      target_link_libraries(VocalBalance_VST2 PRIVATE VocalBalance_rc_lib)
+    endif()
     set_target_properties(VocalBalance_VST2 PROPERTIES
       PREFIX "" OUTPUT_NAME "Vocal Balance"
       LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/VocalBalance_artefacts/$<CONFIG>/VST2"

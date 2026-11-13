@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <cstring>
 #include <limits>
+#include <stdexcept>
 #if JUCE_WINDOWS
  #include <windows.h>
  #define VB_EXPORT __declspec(dllexport)
@@ -25,6 +26,9 @@ static_assert(sizeof(vst_effect) == 192 && offsetof(vst_effect, process_float) =
               "Unexpected VST2 effect ABI layout");
 namespace {
 thread_local bool receivingHostValue = false;
+constexpr int legacyVersion = ((JucePlugin_VersionCode >> 16) & 0xffff) * 10000
+                            + ((JucePlugin_VersionCode >> 8) & 0xff) * 100
+                            + (JucePlugin_VersionCode & 0xff);
 
 class LegacyInstance final : private juce::AudioProcessorListener {
 public:
@@ -45,7 +49,7 @@ public:
   effect.flags = 1 | (1 << 4) | (1 << 5); // Editor, replacing, state chunks.
   effect.effect_internal = this;
   effect.unique_id = 0x56623031; // Vb01, same product identity as our VST3.
-  effect.version = 100;
+  effect.version = legacyVersion;
   effect._unknown_float_00 = 1.0f;
   processor.addListener(this);
   configure();
@@ -216,7 +220,7 @@ private:
     case 45: return text(data, "Vocal Balance", 32);
     case 47: return text(data, "Independent Audio", 64);
     case 48: return text(data, "Vocal Balance", 64);
-    case 49: return 100;
+    case 49: return legacyVersion;
     case 51:
      if (!data) return 0;
      return std::strcmp(static_cast<const char*>(data), "bypass") == 0

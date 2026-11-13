@@ -1,5 +1,5 @@
 name: Build Windows Plugins
-on: [push, pull_request, workflow_dispatch]
+on: [pull_request, workflow_dispatch]
 jobs:
   windows:
     runs-on: windows-latest
@@ -13,7 +13,7 @@ jobs:
           $null = [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $pwd 'tools/Sign-WindowsArtifacts.ps1'), [ref]$tokens, [ref]$errors)
           if ($errors.Count -gt 0) { $errors | Format-List; throw 'Signing script has syntax errors.' }
       - run: cmake -S . -B build -A x64
-      - run: cmake --build build --config Release --parallel 4
+      - run: cmake --build build --config Release --parallel 2
       - run: ctest --test-dir build -C Release --output-on-failure
       - uses: actions/upload-artifact@v4
         with:

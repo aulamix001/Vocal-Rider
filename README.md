@@ -1,6 +1,6 @@
 # Vocal Balance
 
-Plugin independente de ajuste automático de nível vocal em C++17/JUCE 8.0.4.
+Plugin independente de ajuste automático de nível vocal em C++17/JUCE 8.0.12.
 VST3, módulo de compatibilidade VST2 e standalone; Windows e Linux x64.
 **Implementação própria baseada nas páginas e imagens recebidas.** Veja
 [decisões e limitações](docs/REFERENCES.md). Não há alegação de equivalência ao Waves Vocal Rider.
@@ -9,8 +9,9 @@ VST3, módulo de compatibilidade VST2 e standalone; Windows e Linux x64.
 
 > **Windows 11 com Controle Inteligente de Aplicativos:** os downloads atuais são
 > builds de desenvolvimento **sem assinatura**. Foi confirmado o bloqueio
-> `0xC0E90002` nesse cenário. Uma distribuição assinada ainda depende de certificado
-> confiável. Veja [diagnóstico e fluxo de assinatura](docs/WINDOWS_LOADING.md).
+> `0xC0E90002` nesse cenário. O CHi Metric comparado também é sem assinatura;
+> a nova versão está sendo compilada nativamente com a mesma família de toolchain
+> MSVC/JUCE 8.0.12. Veja [comparação e diagnóstico](docs/WINDOWS_LOADING.md).
 
 [**Baixar Vocal Balance VST3 — ZIP (pasta .vst3 + instruções)**](https://github.com/aulamix001/Vocal-Rider/raw/refs/heads/main/downloads/VocalBalance-0.1.0-VST3-Windows-x64.zip)
 
